@@ -1,0 +1,106 @@
+.logo_ordotech{
+    height : 100px;
+    width : auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+.form-container{
+    height : 100vh;
+    width : 100vw;
+    margin : 0;
+    background-color: #F5F5F5;
+    display : flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+}
+
+.titre_form{
+    text-align: center;
+    font-weight :700;
+    font-size : 40px;
+    line-height: 20px;
+}
+
+.info_form{
+    line-height: 0;
+    font-size : 15px;
+    color : grey;
+}
+
+
+.register{
+    color : white;
+    display : flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: center;
+
+}
+
+
+.signup_form{
+    border-radius : 10px;
+    display : flex;
+    flex-direction: column;
+    text-align: left;
+    row-gap : 5px;
+    width : 470px;
+    background-color: #36454F;
+    padding : 20px 50px 40px 50px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+label{
+    z-index: 2;
+    font-weight: lighter;
+    font-size : 14px;
+    line-height: 7px;
+}
+
+.register input{
+    margin-top:8px;
+    padding : 8px;
+    border : lightgray 1px solid;
+    border-radius: 10px;
+}
+
+.register input:focus{
+    outline: none;
+    border : darkseagreen 2px solid;
+}
+
+.signupButton{
+    margin-top : 20px;
+    padding : 20px 40px;
+    background-color: #2a819f ;
+    color: white ;
+    font-size : 18px;
+    font-weight: bold;
+    border-radius: 10px;
+    border : none;
+}
+
+.signupButton:hover{
+    cursor: pointer;
+    background-color: #21677f;
+}
+
+.register a{
+    text-decoration: none;
+}
+
+.register p:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.ligne{
+    display: flex;
+    flex-direction: column;
+    padding : 5px;
+}

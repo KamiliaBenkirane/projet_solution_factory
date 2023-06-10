@@ -1,0 +1,109 @@
+<template>
+  <div class="container">
+    <img class="logo_ordotech" src="../../assets/logo/OrdoTech_logo.jpg">
+    <div class="box">
+      <div>
+      <h3>Choisissez votre rôle :</h3>
+      </div>
+      <div class="container_roles">
+        <router-link to="/registerUser">
+        <div class="box_user">
+          <h3>Patient</h3>
+          <img src="../../assets/icones/patient.png">
+        </div>
+        </router-link>
+        <router-link to="/registerMedecin">
+        <div class="box_user">
+          <h3>Medecin</h3>
+          <img src="../../assets/icones/docteur.png">
+        </div>
+        </router-link>
+          <router-link to="/registerPharmacie">
+        <div class="box_user">
+          <h3>Pharmacie</h3>
+          <img src="../../assets/icones/pharmacie.png">
+        </div>
+          </router-link>
+      </div>
+
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "ChooseRole"
+}
+</script>
+
+<style scoped>
+
+img{
+  width : 100px;
+  height: auto;
+}
+
+
+.logo_ordotech{
+  height : 100px;
+  width : auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999; /* Pour s'assurer que l'image est au-dessus du reste de la page */
+}
+
+
+.container{
+  height : 100vh;
+  width : 100vw;
+  margin : 0;
+  background-color: #F5F5F5;
+  display : flex;
+  justify-content: center;
+  align-items: center;
+  color : white;
+}
+
+.box{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding : 40px;
+  background-color: #36454F;
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.container_roles{
+  display : flex;
+  flex-direction: row;
+  justify-content: center;
+
+}
+
+.box_user{
+  height : 150px;
+  width : 150px;
+  padding : 0 15px 20px 15px;
+  margin : 0 20px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  background-color: #E8EFF2 ;
+  color : black;
+  justify-content: center;
+  align-items: center;
+}
+
+a{
+  text-decoration: none;
+}
+
+.box_user:hover{
+  cursor : pointer;
+  background-color: #BCD1D8;
+}
+
+</style>
