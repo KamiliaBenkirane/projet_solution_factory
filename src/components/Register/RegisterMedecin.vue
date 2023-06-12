@@ -7,7 +7,7 @@
         <div class="signup_form">
 
           <h1 class="titre_form">Créer un compte</h1>
-
+          <div class="ligne_container">
           <div class="ligne">
             <label><b>Nom</b></label>
             <input type="text" v-model="nom" placeholder="Nom" name="nom" required>
@@ -17,6 +17,9 @@
             <label><b>Prénom</b></label>
             <input type="text" v-model="prenom" placeholder="Prénom" name="prenom" required>
           </div>
+          </div>
+
+          <div class="ligne_container">
 
           <div class="ligne">
             <label><b>E-mail</b></label>
@@ -26,6 +29,8 @@
           <div class="ligne">
             <label><b>Numéro de téléphone</b></label>
             <input type="number" v-model="numero" placeholder="Numéro" name="numero" required>
+          </div>
+
           </div>
 
           <div class="ligne">

@@ -7,36 +7,54 @@
         <div class="signup_form">
 
           <h1 class="titre_form">Créer un compte</h1>
-
+          <div class="ligne_container">
           <div class="ligne">
-            <label><b>Nom</b></label>
+            <label><b>Nom de la pharmacie</b></label>
             <input type="text" v-model="nom" placeholder="Nom" name="nom" required>
           </div>
 
           <div class="ligne">
-            <label><b>Prénom</b></label>
-            <input type="text" v-model="prenom" placeholder="Prénom" name="prenom" required>
+            <label><b>E-mail</b></label>
+            <input type="text" v-model="email" placeholder="Prénom" name="prenom" required>
+          </div>
           </div>
 
-          <div class="ligne">
-            <label><b>E-mail</b></label>
-            <input type="email" v-model="mail" placeholder="E-mail" name="mail" required>
-          </div>
+
 
           <div class="ligne">
             <label><b>Numéro de téléphone</b></label>
-            <input type="number" v-model="numero" placeholder="Numéro" name="numero" required>
+            <input type="number" v-model="numero" placeholder="E-mail" name="mail" required>
           </div>
 
+          <div class="ligne_container">
           <div class="ligne">
-            <label><b>Adresse</b></label>
+            <label><b>N°</b></label>
             <input type="text" v-model="adresse" placeholder="Adresse" name="adresse" required>
+          </div>
+          <div class="ligne">
+            <label><b>Rue</b></label>
+            <input type="text" v-model="adresse" placeholder="Adresse" name="adresse" required>
+          </div>
+          </div>
+
+          <div class="ligne_container">
+            <div class="ligne">
+              <label><b>Code Postal</b></label>
+              <input type="number" v-model="numero" placeholder="Numéro" name="numero" required>
+            </div>
+
+
+          <div class="ligne">
+            <label><b>Ville</b></label>
+            <input type="text" v-model="adresse" placeholder="Adresse" name="adresse" required>
+          </div>
           </div>
 
           <div class="ligne">
             <label><b>Mot de Passe</b></label>
             <input type="password" v-model="mdp" placeholder="Mot de Passe" name="mdp" required>
           </div>
+
 
           <button class="signupButton">M'inscrire !</button>
         </div>

@@ -8,8 +8,8 @@
       <div class="container_roles">
         <router-link to="/registerUser">
         <div class="box_user">
-          <h3>Patient</h3>
-          <img src="../../assets/icones/patient.png">
+          <h3>Etudiant</h3>
+          <img src="../../assets/icones/etudiant-diplome.png">
         </div>
         </router-link>
         <router-link to="/registerMedecin">
