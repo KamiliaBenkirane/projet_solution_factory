@@ -22,9 +22,7 @@
           <button class="signupButton" >Se connecter !</button>
 
           <!-- Bouton pour naviguer vers le formulaire de prescription à supprimer -->
-          <router-link to="/Prescription">
-            <button class="signupButton">Aller au formulaire de prescription</button>
-          </router-link>
+
 
         </div>
       </div>

@@ -1,10 +1,15 @@
 <template>
-  Home Pharmacie en cours de développement
+  <Sidebar/>
 </template>
 
 <script>
+import Sidebar from "@/components/SideBar/Sidebar";
+
 export default {
-  name: "HomePharmacie"
+  name: "HomePharmacie",
+  components: {
+    Sidebar
+  }
 }
 </script>
 

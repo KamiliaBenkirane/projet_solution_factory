@@ -7,7 +7,7 @@ import RegisterPharmacie from '../components/Register/RegisterPharmacie.vue';
 import HomeUser from '../components/UserPage/HomeUser.vue';
 import HomeMedecin from '../components/MedecinPage/HomeMedecin.vue';
 import HomePharmacie from '../components/PharmaciePage/HomePharmacie.vue';
-import Prescription from '../components/Prescription/Prescription.vue';
+import Prescription from '../components/MedecinPage/Prescription.vue';
 
 const routes = [
     {path: '/', component: Login},

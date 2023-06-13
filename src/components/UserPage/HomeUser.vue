@@ -1,10 +1,15 @@
 <template>
-  Home User en cours de développement
+  <Sidebar/>
 </template>
 
 <script>
+import Sidebar from "@/components/SideBar/Sidebar";
+
 export default {
-  name: "HomeUser"
+  name: "HomeUser",
+  components : {
+    Sidebar
+  }
 }
 </script>
 

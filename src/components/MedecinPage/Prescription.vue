@@ -1,8 +1,9 @@
 <template>
-    <div class="form-container">
+  <Sidebar/>
+    <div class="form-container" id="OrdonnanceForm">
       <div class="signup_form register">
         <h1 class="titre_form">Prescription médicale</h1>
-        <form @submit.prevent="submitForm">
+        <form @submit.prevent="submitForm()">
           <div class="ligne">
             <label for="patientName">Nom du patient</label>
             <input id="patientName" v-model="patientName" type="text" required>
@@ -26,7 +27,12 @@
   
     <!-- Section pour l'affichage de l'ordonnance générée -->
     <div v-if="prescriptionGenerated" class="form-container">
+      <div class="register">
+
+        <router-link to="/homeMedecin"><p class="info_form">Retourner à l'accueil</p></router-link>
+
       <div class="signup_form register">
+
         <h1 class="titre_form">Ordonnance générée</h1>
         <div id="prescription">
           <p>
@@ -37,15 +43,20 @@
             <b>Prescription :</b> Prendre {{ medication }} à {{ dosage }} tous les jours.
           </p>
         </div>
-        <button class="signupButton" @click="generatePDF">Générer PDF</button>
+        <button class="signupButton" @click="generatePDF()">Générer PDF</button>
+      </div>
       </div>
     </div>
   </template>
     
   <script>
   import { jsPDF } from "jspdf";
+  import Sidebar from "@/components/SideBar/Sidebar";
   
   export default {
+    components: {
+      Sidebar
+    },
     data() {
       return {
         patientName: '',
@@ -59,6 +70,7 @@
       submitForm() {
         // Mettre à jour la valeur de prescriptionGenerated pour afficher l'ordonnance générée
         this.prescriptionGenerated = true;
+        document.getElementById("OrdonnanceForm").style.display = "none";
       },
       
       generatePDF() {
