@@ -9,9 +9,10 @@ var con = mysql.createConnection({
 con.connect(function(err) {
     if (err) throw err;
     console.log("Connected!");
-    sql = "SELECT * FROM drug";
-    con.query(sql, function (err, result) {
-      if (err) throw err;
-      console.log("Result: " + result);
-    });
+    // sql = "USE medic";
+    // con.query(sql, function (err, result) {
+    //   if (err) throw err;
+    //   console.log("Schema chosed?")
+    //   //console.log("Result: " + result);
+    // });
   });
