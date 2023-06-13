@@ -7,7 +7,7 @@ import RegisterPharmacie from '../components/Register/RegisterPharmacie';
 import HomeUser from '../components/UserPage/HomeUser';
 import HomeMedecin from '../components/MedecinPage/HomeMedecin';
 import HomePharmacie from '../components/PharmaciePage/HomePharmacie';
-
+import Prescription from '../components/Prescription';
 
 const routes = [
     {path: '/', component: Login},
@@ -17,7 +17,8 @@ const routes = [
     {path: '/registerPharmacie', component: RegisterPharmacie},
     {path: '/homeUser', component: HomeUser},
     {path: '/homeMedecin', component: HomeMedecin},
-    {path: '/homePharmacie', component: HomePharmacie}
+    {path: '/homePharmacie', component: HomePharmacie},
+    {path: '/prescription', component: Prescription}
 ]
 
 
