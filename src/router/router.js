@@ -1,13 +1,13 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import Login from '../components/Login/Login.vue';
-import ChooseRole from '../components/Register/ChooseRole';
-import RegisterUser from '../components/Register/RegisterUser';
-import RegisterMedecin from '../components/Register/RegisterMedecin';
-import RegisterPharmacie from '../components/Register/RegisterPharmacie';
-import HomeUser from '../components/UserPage/HomeUser';
-import HomeMedecin from '../components/MedecinPage/HomeMedecin';
-import HomePharmacie from '../components/PharmaciePage/HomePharmacie';
-import Prescription from '../components/Prescription';
+import ChooseRole from '../components/Register/ChooseRole.vue';
+import RegisterUser from '../components/Register/RegisterUser.vue';
+import RegisterMedecin from '../components/Register/RegisterMedecin.vue';
+import RegisterPharmacie from '../components/Register/RegisterPharmacie.vue';
+import HomeUser from '../components/UserPage/HomeUser.vue';
+import HomeMedecin from '../components/MedecinPage/HomeMedecin.vue';
+import HomePharmacie from '../components/PharmaciePage/HomePharmacie.vue';
+import Prescription from '../components/Prescription/Prescription.vue';
 
 const routes = [
     {path: '/', component: Login},
@@ -18,14 +18,37 @@ const routes = [
     {path: '/homeUser', component: HomeUser},
     {path: '/homeMedecin', component: HomeMedecin},
     {path: '/homePharmacie', component: HomePharmacie},
-    {path: '/prescription', component: Prescription}
-]
+    {path: '/prescription', component: Prescription},
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
+
+export default router;
 
 
-const router = new createRouter({
-    history: createWebHistory(),
-    routes
 
-})
 
-export default router
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
