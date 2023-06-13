@@ -60,12 +60,31 @@
         // Mettre à jour la valeur de prescriptionGenerated pour afficher l'ordonnance générée
         this.prescriptionGenerated = true;
       },
+      
       generatePDF() {
-        const doc = new jsPDF();
-        const prescription = document.getElementById('prescription').innerText;
-        doc.text(prescription, 10, 10);
-        doc.save("ordonnance.pdf");
-      }
+  const doc = new jsPDF();
+
+  doc.setFont("Helvetica, Arial, sans-serif"); // Choisissez une police agréable.
+  doc.setFontSize(22); // Augmentez la taille de la police pour le titre.
+
+  doc.text("Ordonnance médicale", 20, 20); // Titre de l'ordonnance.
+
+  doc.setFontSize(16); // Réduisez la taille de la police pour le contenu.
+
+  // Imprimez chaque ligne de l'ordonnance à une position spécifiée.
+  doc.text(`Nom du patient : ${this.patientName}`, 20, 40);
+  doc.text(`Date de naissance : ${this.patientBirthDate}`, 20, 60);
+  doc.text(`Médicament prescrit : ${this.medication}`, 20, 80);
+  doc.text(`Dosage : ${this.dosage}`, 20, 100);
+
+  doc.save("Ordonnance.pdf");
+}
+
+  
+  
+  
+  
+      
     }
   }
   </script>
