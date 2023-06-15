@@ -154,7 +154,11 @@ export default {
 }
 
 .ajouter_ordo:hover{
-  background-color: #A2E1B8;
+  background-color: #CBFBDC;
+}
+
+.ajouter_ordo:hover h3{
+  text-decoration: underline;
 }
 
 .parent-grid{
@@ -163,16 +167,21 @@ export default {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(4, 1fr);
-  grid-column-gap: 15px;
-  grid-row-gap: 15px;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
 }
 
 .child-grid{
   border-radius : 10px;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
   padding : 20px;
+  transition: all 0.25s ease;
 
 
+}
+
+.child-grid:hover{
+  transform : scale(1.03);
 }
 
 .box1 {
@@ -216,20 +225,22 @@ export default {
 }
 
 .ordo-item{
-  padding : 10px 20px 0 20px ;
+  padding : 10px 15px 10px 5px ;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   border-radius: 5px;
+  background-color: #8cd5eb;
 }
 
 .ordo-item:hover{
   cursor : pointer;
-  background-color: #8cd5eb;
+  background-color: #AEE1F1;
+
 }
 
 .ordo-item img{
-  height : 8vh;
+  height : 7vh;
   width: auto;
 }
 
@@ -285,10 +296,11 @@ export default {
 }
 
 .historique{
-  text-align: center;
-  line-height: 20px;
-  font-size : 15px;
-  padding : 0;
+  font-size: 15px;
+  align-self: flex-end;
+  position: absolute; /* Add this */
+  bottom: 0; /* Add this */
+  right: -10;
   color : #404040;
 }
 
