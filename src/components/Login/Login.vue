@@ -1,13 +1,13 @@
 <template>
 
-  <div class="container_page"></div>
+  <div class="container_page "></div>
   <img class="logo_ordotech" src="../../assets/logo/OrdoTech_logo.jpg">
-  <div class="form-container">
+  <div class="form-container gradient-background">
 
     <div class="flex">
       <div class="register">
         <router-link to="/chooseRole"><p class="info_form">Vous n'avez pas encore de compte ? Cliquez ici !</p></router-link>
-        <div class="signup_form">
+        <div class="signup_form login">
 
           <h1 class="titre_form">Se connecter</h1>
           <div class="ligne">
@@ -31,10 +31,23 @@
 </template>
 
 <script>
+import "../../style/login-register.css";
 export default {
   name: "Login"
 }
 </script>
 
-<style src="../../style/login-register.css" scoped>
+<style scoped>
+
+.signup_form {
+  background-color: #40b9de;
+}
+
+.signupButton{
+  background-color: #A2E1B8;
+}
+.signupButton:hover{
+  background-color: #90C8A4;
+}
+
 </style>

@@ -7,19 +7,19 @@
       </div>
       <div class="container_roles">
         <router-link to="/registerUser">
-        <div class="box_user">
+        <div class="box_user etudiant">
           <h3>Etudiant</h3>
-          <img src="../../assets/icones/etudiant-diplome.png">
+          <img src="../../assets/icones/etudiant.png">
         </div>
         </router-link>
         <router-link to="/registerMedecin">
-        <div class="box_user">
+        <div class="box_user medecin">
           <h3>Medecin</h3>
           <img src="../../assets/icones/docteur.png">
         </div>
         </router-link>
           <router-link to="/registerPharmacie">
-        <div class="box_user">
+        <div class="box_user pharmacie">
           <h3>Pharmacie</h3>
           <img src="../../assets/icones/pharmacie.png">
         </div>
@@ -41,6 +41,7 @@ export default {
 img{
   width : 100px;
   height: auto;
+  color : white;
 }
 
 
@@ -58,7 +59,6 @@ img{
   height : 100vh;
   width : 100vw;
   margin : 0;
-  background-color: #F5F5F5;
   display : flex;
   justify-content: center;
   align-items: center;
@@ -66,12 +66,13 @@ img{
 }
 
 .box{
+  color : black;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding : 40px;
-  background-color: #36454F;
+  background-color: whitesmoke;
   border-radius: 10px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
@@ -84,6 +85,8 @@ img{
 }
 
 .box_user{
+
+  color : white;
   height : 150px;
   width : 150px;
   padding : 0 15px 20px 15px;
@@ -91,10 +94,31 @@ img{
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-  background-color: #E8EFF2 ;
-  color : black;
   justify-content: center;
   align-items: center;
+}
+
+.etudiant{
+  background-color: #203f6b;
+}
+
+.etudiant:hover{
+  background-color: #162c4a;
+}
+
+.medecin{
+  background-color: #40b9de;
+}
+
+.medecin:hover{
+  background-color: #3394b1;
+}
+
+.pharmacie{
+  background-color: #96acc5;
+}
+.pharmacie:hover{
+  background-color: #78899d;
 }
 
 a{
@@ -103,7 +127,6 @@ a{
 
 .box_user:hover{
   cursor : pointer;
-  background-color: #BCD1D8;
 }
 
 </style>
