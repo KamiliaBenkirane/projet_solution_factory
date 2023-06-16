@@ -126,7 +126,7 @@ export default {
 }
 
 .logo_ordotech{
-  height: 15vh;
+  height: 9vh;
   width: auto;
   position: absolute;
   top: 0;
@@ -225,7 +225,7 @@ export default {
 }
 
 .ordo-item{
-  padding : 10px 15px 10px 5px ;
+  padding : 25px 15px 25px 5px ;
   display: flex;
   flex-direction: row;
   align-items: center;

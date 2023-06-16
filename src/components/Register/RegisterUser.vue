@@ -33,12 +33,12 @@
           </div>
           <div class="ligne">
             <label><b>Numéro de sécurité sociale</b></label>
-            <input type="number" v-model="secu" placeholder="Adresse" name="adresse" required>
+            <input type="number" v-model="secu" placeholder="Sécurité Sociale" name="adresse" required>
           </div>
 
           <div class="ligne">
             <label><b>Numéro étudiant</b></label>
-            <input type="number" v-model="num_etudiant" placeholder="Adresse" name="adresse" required>
+            <input type="number" v-model="num_etudiant" placeholder="Numéro " name="adresse" required>
           </div>
 
           <div class="ligne">

@@ -46,12 +46,11 @@ img{
 
 
 .logo_ordotech{
-  height : 100px;
+  height : 70px;
   width : auto;
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 9999; /* Pour s'assurer que l'image est au-dessus du reste de la page */
 }
 
 

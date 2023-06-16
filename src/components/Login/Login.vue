@@ -1,8 +1,8 @@
 <template>
 
-  <div class="container_page "></div>
-  <img class="logo_ordotech" src="../../assets/logo/OrdoTech_logo.jpg">
-  <div class="form-container gradient-background">
+  <div class="container_page gradient-background"></div>
+  <img class="logo_ordotech" src="../../assets/logo/OrdoTech_logo.png">
+  <div class="form-container">
 
     <div class="flex">
       <div class="register">

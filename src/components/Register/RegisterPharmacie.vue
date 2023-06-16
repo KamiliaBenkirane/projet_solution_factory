@@ -15,7 +15,7 @@
 
           <div class="ligne">
             <label><b>E-mail</b></label>
-            <input type="text" v-model="email" placeholder="Prénom" name="prenom" required>
+            <input type="text" v-model="email" placeholder="E-mail" name="prenom" required>
           </div>
           </div>
 
@@ -23,30 +23,30 @@
 
           <div class="ligne">
             <label><b>Numéro de téléphone</b></label>
-            <input type="number" v-model="numero" placeholder="E-mail" name="mail" required>
+            <input type="number" v-model="numero" placeholder="Numéro" name="mail" required>
           </div>
 
           <div class="ligne_container">
           <div class="ligne">
             <label><b>N°</b></label>
-            <input type="text" v-model="adresse" placeholder="Adresse" name="adresse" required>
+            <input type="text" v-model="adresse" placeholder="N°" name="adresse" required>
           </div>
           <div class="ligne">
             <label><b>Rue</b></label>
-            <input type="text" v-model="adresse" placeholder="Adresse" name="adresse" required>
+            <input type="text" v-model="adresse" placeholder="Rue" name="adresse" required>
           </div>
           </div>
 
           <div class="ligne_container">
             <div class="ligne">
               <label><b>Code Postal</b></label>
-              <input type="number" v-model="numero" placeholder="Numéro" name="numero" required>
+              <input type="number" v-model="numero" placeholder="COde Postal" name="numero" required>
             </div>
 
 
           <div class="ligne">
             <label><b>Ville</b></label>
-            <input type="text" v-model="adresse" placeholder="Adresse" name="adresse" required>
+            <input type="text" v-model="adresse" placeholder="Ville" name="adresse" required>
           </div>
           </div>
 
