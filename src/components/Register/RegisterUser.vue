@@ -1,6 +1,6 @@
 <template>
   <div class="form-container">
-    <img class="logo_ordotech" src="../../assets/logo/OrdoTech_logo.jpg">
+    <img class="logo_ordotech" src="../../assets/logo/OrdoTech_logo.png">
     <div class="flex">
       <div class="register">
         <router-link to="/"><p class="info_form">Vous possédez déjà un compte ? Cliquez ici !</p></router-link>

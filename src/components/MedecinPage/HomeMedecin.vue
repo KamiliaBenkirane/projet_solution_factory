@@ -1,7 +1,7 @@
 <template>
   <Sidebar/>
   <div class="page">
-    <img class="logo_ordotech" src="../../assets/logo/OrdoTech_logo.jpg">
+    <img class="logo_ordotech" src="../../assets/logo/OrdoTech_logo.png">
     <div class="container">
       <div class="parent-grid">
         <div class="child-grid box1">

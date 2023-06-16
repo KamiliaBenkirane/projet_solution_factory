@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <img class="logo_ordotech" src="../../assets/logo/OrdoTech_logo.jpg">
+    <img class="logo_ordotech" src="../../assets/logo/OrdoTech_logo.png">
     <div class="box">
       <div>
       <h3>Choisissez votre rôle :</h3>
