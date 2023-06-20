@@ -8,6 +8,7 @@ import HomeUser from '../components/UserPage/HomeUser.vue';
 import HomeMedecin from '../components/MedecinPage/HomeMedecin.vue';
 import HomePharmacie from '../components/PharmaciePage/HomePharmacie.vue';
 import Prescription from '../components/MedecinPage/Prescription.vue';
+import AddPrescription from '../Backend/addPrescription.js'
 
 const routes = [
     {path: '/', component: Login},
