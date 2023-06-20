@@ -82,6 +82,15 @@
   doc.text("Ordonnance médicale", 20, 20); // Titre de l'ordonnance.
 
   doc.setFontSize(16); // Réduisez la taille de la police pour le contenu.
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      let mm = today.getMonth() + 1; // Months start at 0!
+      let dd = today.getDate();
+
+      if (dd < 10) dd = '0' + dd;
+      if (mm < 10) mm = '0' + mm;
+
+      const formattedToday = dd + '-' + mm + '-' + yyyy;
 
   // Imprimez chaque ligne de l'ordonnance à une position spécifiée.
   doc.text(`Nom du patient : ${this.patientName}`, 20, 40);
@@ -89,7 +98,7 @@
   doc.text(`Médicament prescrit : ${this.medication}`, 20, 80);
   doc.text(`Dosage : ${this.dosage}`, 20, 100);
 
-  doc.save("Ordonnance.pdf");
+  doc.save(`Ordonnance-${this.patientName}-${formattedToday}`);
 }
 
   
