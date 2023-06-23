@@ -1,5 +1,5 @@
 <template>
-  <Sidebar/>
+  <SidebarUser/>
   <div class="page">
     <img class="logo_ordotech" src="../../assets/logo/OrdoTech_logo.png">
     <div class="container">
@@ -52,12 +52,12 @@
 </template>
 
 <script>
-import Sidebar from "@/components/SideBar/Sidebar";
+import SidebarUser from "@/components/UserPage/SidebarUser.vue";
 
 export default {
   name: "HomeUser",
   components : {
-    Sidebar
+    SidebarUser
   },
   data(){
     return{

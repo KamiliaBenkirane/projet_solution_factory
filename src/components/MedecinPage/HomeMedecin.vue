@@ -1,5 +1,5 @@
 <template>
-  <Sidebar/>
+  <SidebarMedecin/>
   <div class="page">
     <img class="logo_ordotech" src="../../assets/logo/OrdoTech_logo.png">
     <div class="container">
@@ -63,12 +63,12 @@
 </template>
 
 <script>
-import Sidebar from '@/components/SideBar/Sidebar.vue'
+import SidebarMedecin from '@/components/MedecinPage/SidebarMedecin.vue'
 
 export default {
   name: "HomeMedecin",
   components: {
-    Sidebar
+    SidebarMedecin
   },
   data(){
     return{

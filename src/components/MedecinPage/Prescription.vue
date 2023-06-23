@@ -1,5 +1,5 @@
 <template>
-  <Sidebar/>
+  <SidebarMedecin/>
     <div class="form-container" id="OrdonnanceForm">
       <div class="signup_form register">
         <h1 class="titre_form">Prescription médicale</h1>
@@ -9,7 +9,7 @@
             <input id="numSecu" v-model="numSecu" type="number" required>
           </div>
           <div id="medicament_container">
-            <div class="medicament">
+            <div class="medicament m1">
               <div class="ligne">
                 <label>Médicament</label>
                 <select name="Medicaments" id="medicament-select">
@@ -17,12 +17,12 @@
               </div>
               <div class="ligne_container">
                 <div class="ligne">
-                  <label for="dosage">Nombre de fois par jour</label>
-                  <input id="dosage" v-model="nbFoisParJour" type="number" required>
+                  <label for="nbFoisParJour">Nombre de fois par jour</label>
+                  <input id="nbFoisParJour" v-model="nbFoisParJour" type="number" required>
                 </div>
                 <div class="ligne">
-                  <label for="patientBirthDate">Pendant cb de jours ?</label>
-                  <input id="patientBirthDate" v-model="nbJour" type="number" required>
+                  <label for="nbJour">Pendant cb de jours ?</label>
+                  <input id="nbJour" v-model="nbJour" type="number" required>
                 </div>
               </div>
             </div>
@@ -62,12 +62,12 @@
     
   <script>
   import { jsPDF } from "jspdf";
-  import Sidebar from "@/components/SideBar/Sidebar";
+  import SidebarMedecin from "@/components/MedecinPage/SidebarMedecin.vue";
   import logo from '@/assets/logo/OrdoTech_logo.png';
   
   export default {
     components: {
-      Sidebar
+      SidebarMedecin
     },
     data() {
       return {
@@ -85,6 +85,7 @@
         adresseEtudiant : "Adresse",
         numEtudiant : "05514896",
         dateNaissanceEtudiant : "15/05/2001",
+        nbMedicament : 1,
         option :
             [
               {
@@ -111,15 +112,6 @@
         document.getElementById("OrdonnanceForm").style.display = "none";
       },
 
-      addMedoc(){
-        const divToDuplicate = document.querySelector('.medicament');
-        const formContainer = document.getElementById('medicament_container');
-        if (divToDuplicate && formContainer) {
-          const clonedDiv = divToDuplicate.cloneNode(true);
-          formContainer.appendChild(clonedDiv);
-        }
-      },
-
       fillSelectMedicament(){
         var selectBox = document.getElementById('medicament-select');
         let listOptions = this.option
@@ -129,6 +121,22 @@
           selectBox.add( new Option(option.text, option.text, option.selected) );
         }
       },
+
+      addMedoc(){
+        const divToDuplicate = document.querySelector('.medicament');
+        const formContainer = document.getElementById('medicament_container');
+        if (divToDuplicate && formContainer) {
+          const clonedDiv = divToDuplicate.cloneNode(true);
+          this.nbMedicament+=1
+          clonedDiv.classList.remove('m1');
+          clonedDiv.classList.add(`m${this.nbMedicament}`);
+          console.log(clonedDiv)
+          formContainer.appendChild(clonedDiv);
+
+        }
+      },
+
+
 
       generatePDF() {
           const doc = new jsPDF();
@@ -165,13 +173,24 @@
 
 
           //Informations ordonnance médicaments
-          const medication = document.getElementById('medicament-select').options[document.getElementById('medicament-select').selectedIndex].text
-
+          var y_medoc = 120
           doc.text(`Prescription : `, 20, 110);
-          doc.text(`Médicament prescrit : ${medication}\nA prendre ${this.nbFoisParJour} par jour pendant pendant ${this.nbJour} jours`, 20, 120);
+          for(let i =1; i<this.nbMedicament+1; i++ ){
+
+            const medication = document.querySelector(`.m${i} #medicament-select`).options[document.querySelector(`.m${i} #medicament-select`).selectedIndex].text
+            console.log(`${i}`, medication)
+
+            var nbFoisParJour = document.querySelector(`.m${i} #nbFoisParJour`).value
+            var nbJour = document.querySelector(`.m${i} #nbJour`).value
 
 
-        doc.text(`Fait le ${formattedTodaySignature}\n\nSignature :`, 140, 180);
+            doc.text(`Médicament prescrit : ${medication}\nA prendre ${nbFoisParJour} par jour pendant pendant ${nbJour} jours`, 20, y_medoc);
+            y_medoc+=20;
+          }
+
+
+
+        doc.text(`Fait le ${formattedTodaySignature}\n\nSignature :`, 140, 220);
 
 
         doc.save(`Ordonnance-${this.prenomEtudiant}-${this.nomEtudiant}-${formattedTodayPdf}`);
@@ -194,6 +213,7 @@ p{
 
 p:hover{
   text-decoration: none;
+  cursor: default;
 }
 
 select{
@@ -222,6 +242,10 @@ select{
   background-color: #E0E0E0;
   cursor: pointer;
 
+}
+
+input{
+  border-radius : 5px;
 }
 
 form{
