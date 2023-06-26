@@ -19,7 +19,7 @@ db.connect(err => {
     console.log('MySQL Connected...')
 });
 
-app.post('/prescription',(req,res) =>{
+app.post('/addPrescription',(req,res) =>{
     let data = {
         patientName: req.body.patientName,
         patientBirthDate: req.body.patientBirthDate,
