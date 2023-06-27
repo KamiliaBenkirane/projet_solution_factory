@@ -64,6 +64,7 @@
 
 <script>
 import SidebarMedecin from '@/components/MedecinPage/SidebarMedecin.vue'
+import axios from 'axios'
 
 export default {
   name: "HomeMedecin",
@@ -107,6 +108,11 @@ export default {
         ordonnances_nb : 3,
       },
       ]
+    }
+  },
+  methods : {
+    getUsers(){
+      axios.post("http")
     }
   }
 }
