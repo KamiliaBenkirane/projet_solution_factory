@@ -21,14 +21,13 @@ db.connect(err => {
 
 app.post('/addPrescription',(req,res) =>{
     let data = {
-        patientName: req.body.patientName,
-        patientBirthDate: req.body.patientBirthDate,
-        medication: req.body.medication,
-        dosage: req.body.dosage
+        pName: req.body.numSecu,
+        dosage: req.body.nbFoisParJour,
+        medical: 'Dolipane'
     }
 
-    let sql = "INSERT INTO test_table (pName,pDate,medical,dosage) VALUES ?";
-  db.query(sql, data, (err, result) => {
+    let sql = "INSERT INTO test_table (pName,medical,dosage) VALUES (?,?,?)";
+  db.query(sql, [data.pName,data.dosage,data.medical], (err, result) => {
     if(err) throw err;
     console.log(result);
     res.send('Prescription added...');
@@ -36,6 +35,6 @@ app.post('/addPrescription',(req,res) =>{
 });
 
 
-app.listen(8080, () => {
-  console.log('Server started on port 8080');
+app.listen(5001, () => {
+  console.log('Server started on port 5001');
 });
