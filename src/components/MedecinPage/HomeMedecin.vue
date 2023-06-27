@@ -110,10 +110,10 @@ export default {
       ]
     }
   },
+  created(){
+  },
   methods : {
-    getUsers(){
-      axios.post("http")
-    }
+
   }
 }
 </script>

@@ -66,6 +66,7 @@
 import { jsPDF } from "jspdf";
 import SidebarMedecin from "@/components/MedecinPage/SidebarMedecin.vue";
 import logo from '@/assets/logo/OrdoTech_logo.png';
+import axios from 'axios'
 
 export default {
   components: {
@@ -88,6 +89,7 @@ export default {
       numEtudiant: "05514896",
       dateNaissanceEtudiant: "15/05/2001",
       nbMedicament: 1,
+      drugs : [],
       option:
         [
           {
@@ -104,10 +106,51 @@ export default {
 
     }
   },
-  mounted() {
-    this.fillSelectMedicament()
+  created() {
+    this.getDrugs()
   },
   methods: {
+    modifyList(objets) {
+      var resultat = [];
+
+      for (var i = 0; i < objets.length; i++) {
+        var objet = objets[i];
+        var nouvelObjet = {
+          text: objet.name_drug
+        };
+
+        if (i === 0) {
+          nouvelObjet.selected = true;
+        }
+
+        resultat.push(nouvelObjet);
+      }
+
+      return resultat;
+    },
+
+
+    fillSelectMedicament() {
+      console.log(this.drugs)
+
+      var selectBox = document.getElementById('medicament-select');
+      let listOptions = this.modifyList(this.drugs)
+
+      for (var i = 0; i < listOptions.length; i++) {
+        var drug = listOptions[i];
+        selectBox.add(new Option(drug.text, drug.text, drug.selected));
+      }
+    },
+    getDrugs() {
+      axios.get("http://localhost:5001/getDrugs")
+          .then(response => {
+            this.drugs = response.data;
+            this.fillSelectMedicament();
+          })
+          .catch(error => {
+            console.error('Une erreur s\'est produite lors de la récupération des médicaments :', error);
+          });
+    },
     submitForm() {
       // Mettre à jour la valeur de prescriptionGenerated pour afficher l'ordonnance générée
       this.prescriptionGenerated = true;
@@ -134,18 +177,6 @@ export default {
         .catch((error) => {
           console.error('Error:', error);
         });
-    },
-
-
-
-    fillSelectMedicament() {
-      var selectBox = document.getElementById('medicament-select');
-      let listOptions = this.option
-
-      for (var i = 0; i < listOptions.length; i++) {
-        var option = listOptions[i];
-        selectBox.add(new Option(option.text, option.text, option.selected));
-      }
     },
 
     addMedoc() {
@@ -210,7 +241,7 @@ export default {
         var nbJour = document.querySelector(`.m${i} #nbJour`).value
 
 
-        doc.text(`Médicament prescrit : ${medication}\nA prendre ${nbFoisParJour} par jour pendant pendant ${nbJour} jours`, 20, y_medoc);
+        doc.text(`Médicament prescrit : ${medication}\nA prendre ${nbFoisParJour} fois par jour pendant pendant ${nbJour} jours`, 20, y_medoc);
         y_medoc += 20;
       }
 
@@ -222,13 +253,9 @@ export default {
       doc.save(`Ordonnance-${this.prenomEtudiant}-${this.nomEtudiant}-${formattedTodayPdf}`);
     }
 
-
-
-
-
-
-  }
+  },
 }
+
 </script>
 
 <style scoped>
