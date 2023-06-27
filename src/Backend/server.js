@@ -34,6 +34,14 @@ app.post('/addPrescription',(req,res) =>{
   });
 });
 
+app.get('/getDrugs', (req,res) => {
+  let sql = 'SELECT * FROM drug';
+  db.query(sql,(err,results) => {
+    if(err) throw err;
+    res.json(results);
+  });
+});
+
 
 app.listen(5001, () => {
   console.log('Server started on port 5001');
