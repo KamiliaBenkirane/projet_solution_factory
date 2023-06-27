@@ -12,6 +12,13 @@
 *{
   font-family: 'rounabold', sans-serif;
 }
+
+select {
+  padding: 7px;
+  margin-top: 5px;
+  border-radius: 10px;
+  width: 100%;
+}
 @font-face {
   font-family: 'rounabold';
   src: url('assets/font/rouna/rouna-bold-webfont.eot');

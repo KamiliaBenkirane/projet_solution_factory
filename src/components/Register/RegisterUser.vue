@@ -36,9 +36,11 @@
             <input type="number" v-model="secu" placeholder="Sécurité Sociale" name="adresse" required>
           </div>
 
+
           <div class="ligne">
-            <label><b>Numéro étudiant</b></label>
-            <input type="number" v-model="num_etudiant" placeholder="Numéro " name="adresse" required>
+            <label>Médecin traitant</label>
+            <select name="Medecins" id="medecin-select">
+            </select>
           </div>
 
           <div class="ligne">
@@ -54,11 +56,67 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-  name: "RegisterUser"
+  name: "RegisterUser",
+  data(){
+    return{
+      secu : null,
+      mail : '',
+      nom : '',
+      prenom : '',
+      mdp : '',
+      numero : null,
+      medecins : []
+    }
+  },
+  created(){
+    this.getMedecins()
+  },
+  methods : {
+    getMedecins(){
+      axios.get("http://localhost:5001/getMedecin").then(response =>{
+        console.log(response.data)
+        this.medecins = response.data
+        this.fillSelectMedecins()
+      })
+    },
+    modifyList(objets) {
+      var resultat = [];
+
+      for (var i = 0; i < objets.length; i++) {
+        var objet = objets[i];
+        var nouvelObjet = {
+          text: objet.first_name+" "+objet.last_name
+        };
+
+        if (i === 0) {
+          nouvelObjet.selected = true;
+        }
+
+        resultat.push(nouvelObjet);
+      }
+
+      return resultat;
+    },
+    fillSelectMedecins() {
+      console.log(this.medecins)
+
+      var selectBox = document.getElementById('medecin-select');
+      let listOptions = this.modifyList(this.medecins)
+
+      for (var i = 0; i < listOptions.length; i++) {
+        var drug = listOptions[i];
+        selectBox.add(new Option(drug.text, drug.text, drug.selected));
+      }
+    },
+  }
 }
 </script>
 
 <style src="../../style/login-register.css">
+
+
+
 
 </style>

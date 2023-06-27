@@ -38,6 +38,8 @@
             <input type="text" v-model="adresse" placeholder="Adresse" name="adresse" required>
           </div>
 
+
+
           <div class="ligne">
             <label><b>Mot de Passe</b></label>
             <input type="password" v-model="mdp" placeholder="Mot de Passe" name="mdp" required>

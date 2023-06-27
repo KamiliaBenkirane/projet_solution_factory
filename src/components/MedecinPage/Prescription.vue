@@ -1,6 +1,6 @@
 <template>
   <SidebarMedecin />
-  <div class="form-container" id="OrdonnanceForm">
+  <div v-show="!numSecuValide" class="form-container" id="OrdonnanceForm">
     <div class="signup_form register">
       <h1 class="titre_form">Prescription médicale</h1>
       <form @submit.prevent="submitForm()" id="form_ordo">
@@ -38,7 +38,7 @@
   </div>
 
   <!-- Section pour l'affichage de l'ordonnance générée -->
-  <div v-if="prescriptionGenerated" class="form-container">
+  <div v-if="prescriptionGenerated && numSecuValide" class="form-container">
     <div class="register">
 
       <router-link to="/homeMedecin">
@@ -52,7 +52,6 @@
           <p>
             <b><u>Ordonnance pour :</u></b> {{ prenomEtudiant }} {{ nomEtudiant }}<br>
             <b><u>Numéro Sécurité Social :</u></b> {{ numSecu }}<br>
-            <b><u>Date de naissance :</u></b> {{ dateNaissanceEtudiant }}<br>
             <b><u>Numéro téléphone :</u></b> {{ numEtudiant }}<br>
           </p>
         </div>
@@ -75,6 +74,7 @@ export default {
   data() {
     return {
       numSecu: null,
+      numSecuValide : false,
       nbFoisParJour: null,
 
       nbJour: null,
@@ -83,26 +83,11 @@ export default {
       prenomMedecin: 'Prénom',
       numMedecin: '0625221555',
       adresseMedecin: "Adresse",
-      prenomEtudiant: 'Prenom',
-      nomEtudiant: 'Nom',
-      adresseEtudiant: "Adresse",
-      numEtudiant: "05514896",
-      dateNaissanceEtudiant: "15/05/2001",
+      prenomEtudiant: '',
+      nomEtudiant: '',
+      numEtudiant: null,
       nbMedicament: 1,
       drugs : [],
-      option:
-        [
-          {
-            "text": "Doliprane",
-            "selected": true
-          },
-          {
-            "text": "Ibuprofène",
-          },
-          {
-            "text": "Aspegic",
-          }
-        ],
 
     }
   },
@@ -151,10 +136,39 @@ export default {
             console.error('Une erreur s\'est produite lors de la récupération des médicaments :', error);
           });
     },
-    submitForm() {
+    getPatient(){
+      axios.post("http://localhost:5001/getPatient", {
+      numSecu: this.numSecu,
+    })
+        .then((response) => {
+          this.numSecuValide = true
+          this.prescriptionGenerated = true;
+
+          console.log(response.data)
+          this.prenomEtudiant = response.data[0].first_name
+          this.nomEtudiant = response.data[0].last_name
+          this.numEtudiant = response.data[0].num_phone
+          console.log(this.numEtudiant)
+          console.log(this.nomEtudiant)
+          console.log(this.prenomEtudiant)
+
+
+
+
+        })
+        .catch((err) => {
+          alert("Ce numéro de sécurité social n'existe pas")
+          console.log(err)
+        });
+    },
+
+
+
+      submitForm() {
+      this.getPatient()
+
       // Mettre à jour la valeur de prescriptionGenerated pour afficher l'ordonnance générée
-      this.prescriptionGenerated = true;
-      document.getElementById("OrdonnanceForm").style.display = "none";
+
 
       // Get the form data
       const prescription = {
