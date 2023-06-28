@@ -66,10 +66,16 @@ import { jsPDF } from "jspdf";
 import SidebarMedecin from "@/components/MedecinPage/SidebarMedecin.vue";
 import logo from '@/assets/logo/OrdoTech_logo.png';
 import axios from 'axios'
+import { useSessionStore} from "@/stores/session";
+
 
 export default {
   components: {
     SidebarMedecin
+  },
+  setup () {
+    const store = useSessionStore()
+    return{store}
   },
   data() {
     return {
@@ -79,10 +85,14 @@ export default {
 
       nbJour: null,
       prescriptionGenerated: false,
-      nomMedecin: 'Nom',
-      prenomMedecin: 'Prénom',
-      numMedecin: '0625221555',
+      nomMedecin: this.store.getNom(),
+      prenomMedecin: this.store.getPrenom(),
+      numMedecin: this.store.getNumero(),
       adresseMedecin: "Adresse",
+      numRue : this.store.getNumRue(),
+      rue : this.store.getRue(),
+      code_postal : this.store.getCodePostal(),
+      ville : this.store.getVille(),
       prenomEtudiant: '',
       nomEtudiant: '',
       numEtudiant: null,
@@ -234,13 +244,13 @@ export default {
 
       // Informations médecin
       doc.text(`${this.prenomMedecin} ${this.nomMedecin}\nMédecin généraliste`, 20, 50);
-      doc.text(`Adresse : ${this.adresseMedecin}\nTel cabinet : ${this.numMedecin}`, 130, 50);
+      doc.text(`Adresse : ${this.numRue} rue ${this.rue}, ${this.ville} ${this.code_postal}  \nTel cabinet : ${this.numMedecin}`, 110, 50);
 
 
 
       //Informations étudiant(e)
       doc.text(`${this.prenomEtudiant} ${this.nomEtudiant}\nNuméro de sécurité social de l'étudiant(e) : ${this.numSecu}`, 20, 70);
-      doc.text(`Tel étudiant(e) : ${this.numEtudiant}`, 130, 70);
+      doc.text(`Tel étudiant(e) : ${this.numEtudiant}`, 110, 70);
 
 
       //Informations ordonnance médicaments

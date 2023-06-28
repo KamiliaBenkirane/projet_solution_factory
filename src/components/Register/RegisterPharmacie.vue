@@ -7,6 +7,7 @@
         <div class="signup_form">
 
           <h1 class="titre_form">Créer un compte</h1>
+          <form @submit.prevent="registerMedecin()" id="form_ordo">
           <div class="ligne_container">
           <div class="ligne">
             <label><b>Nom de la pharmacie</b></label>
@@ -56,7 +57,8 @@
           </div>
 
 
-          <button class="signupButton">M'inscrire !</button>
+          <button class="signupButton" type="submit">M'inscrire !</button>
+          </form>
         </div>
       </div>
     </div>
@@ -69,6 +71,9 @@ export default {
 }
 </script>
 
-<style src="../../style/login-register.css">
+<style scoped>
+.signupButton {
+  width: 100%;
+}
 
 </style>
