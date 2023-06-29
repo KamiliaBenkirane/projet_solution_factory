@@ -55,7 +55,7 @@
             <b><u>Numéro téléphone :</u></b> {{ numEtudiant }}<br>
           </p>
         </div>
-        <button class="signupButton" @click="generatePDF()">Générer PDF</button>
+        <button class="signupButton" @click="generatePDF(today); postOrdonnance()">Générer PDF</button>
       </div>
     </div>
   </div>
@@ -97,8 +97,10 @@ export default {
       nomEtudiant: '',
       numEtudiant: null,
       nbMedicament: 1,
+      idEtudiant : null,
       drugs : [],
-
+      today : new Date(),
+      infoMedicaments : []
     }
   },
   created() {
@@ -111,7 +113,8 @@ export default {
       for (var i = 0; i < objets.length; i++) {
         var objet = objets[i];
         var nouvelObjet = {
-          text: objet.name_drug
+          text: objet.name_drug,
+          option : objet.id_drug
         };
 
         if (i === 0) {
@@ -124,16 +127,31 @@ export default {
       return resultat;
     },
 
+    postOrdonnance(){
+      let infoOrdonnance = {
+        id_medecin : this.store.getId(),
+        id_patient : parseInt(this.idEtudiant),
+        date : this.formatDate(this.today)[0],
+        infoMedicaments : this.infoMedicaments
+      }
+      console.log(infoOrdonnance)
+
+      axios.post("http://localhost:5001/addOrdonnance", infoOrdonnance).then(response=>{
+        alert("Ordonnance ajoutée à la base de données")
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+
 
     fillSelectMedicament() {
-      console.log(this.drugs)
 
       var selectBox = document.getElementById('medicament-select');
       let listOptions = this.modifyList(this.drugs)
 
       for (var i = 0; i < listOptions.length; i++) {
         var drug = listOptions[i];
-        selectBox.add(new Option(drug.text, drug.text, drug.selected));
+        selectBox.add(new Option(drug.text, drug.option, drug.selected));
       }
     },
     getDrugs() {
@@ -154,13 +172,10 @@ export default {
           this.numSecuValide = true
           this.prescriptionGenerated = true;
 
-          console.log(response.data)
           this.prenomEtudiant = response.data[0].first_name
           this.nomEtudiant = response.data[0].last_name
           this.numEtudiant = response.data[0].num_phone
-          console.log(this.numEtudiant)
-          console.log(this.nomEtudiant)
-          console.log(this.prenomEtudiant)
+          this.idEtudiant = response.data[0].id_patient
 
 
 
@@ -211,22 +226,11 @@ export default {
         this.nbMedicament += 1
         clonedDiv.classList.remove('m1');
         clonedDiv.classList.add(`m${this.nbMedicament}`);
-        console.log(clonedDiv)
         formContainer.appendChild(clonedDiv);
 
       }
     },
-
-
-
-    generatePDF() {
-      const doc = new jsPDF();
-
-      doc.setFont("Helvetica, Arial, sans-serif"); // Choisissez une police agréable.
-
-      doc.setFontSize(12); // Réduisez la taille de la police pour le contenu.
-
-      const today = new Date();
+    formatDate(today){
       const yyyy = today.getFullYear();
       let mm = today.getMonth() + 1; // Months start at 0!
       let dd = today.getDate();
@@ -236,6 +240,25 @@ export default {
 
       const formattedTodayPdf = dd + '-' + mm + '-' + yyyy;
       const formattedTodaySignature = dd + '/' + mm + '/' + yyyy;
+      const dates = [];
+      dates[0] = formattedTodayPdf
+      dates[1] = formattedTodaySignature
+      return dates
+    },
+
+
+
+    generatePDF(today) {
+      const doc = new jsPDF();
+
+      doc.setFont("Helvetica, Arial, sans-serif"); // Choisissez une police agréable.
+
+      doc.setFontSize(12); // Réduisez la taille de la police pour le contenu.
+
+
+     const formattedTodayPdf = this.formatDate(today)[0]
+      const formattedTodaySignature = this.formatDate(today)[1]
+
 
 
       const imgData = logo;
@@ -258,15 +281,25 @@ export default {
       doc.text(`Prescription : `, 20, 110);
       for (let i = 1; i < this.nbMedicament + 1; i++) {
 
-        const medication = document.querySelector(`.m${i} #medicament-select`).options[document.querySelector(`.m${i} #medicament-select`).selectedIndex].text
-        console.log(`${i}`, medication)
+        const medicament = parseInt(document.querySelector(`.m${i} #medicament-select`).options[document.querySelector(`.m${i} #medicament-select`).selectedIndex].value)
+
+
+
+        const medication= document.querySelector(`.m${i} #medicament-select`).options[document.querySelector(`.m${i} #medicament-select`).selectedIndex].text
+        console.log(medication)
+
 
         var nbFoisParJour = document.querySelector(`.m${i} #nbFoisParJour`).value
+        var nbFoisParJourInt = parseInt(document.querySelector(`.m${i} #nbFoisParJour`).value)
         var nbJour = document.querySelector(`.m${i} #nbJour`).value
+        var nbJourInt = parseInt(document.querySelector(`.m${i} #nbJour`).value)
+
 
 
         doc.text(`Médicament prescrit : ${medication}\nA prendre ${nbFoisParJour} fois par jour pendant pendant ${nbJour} jours`, 20, y_medoc);
         y_medoc += 20;
+        this.infoMedicaments.push([medicament, nbFoisParJourInt, nbJourInt])
+        console.log(this.infoMedicaments)
       }
 
 

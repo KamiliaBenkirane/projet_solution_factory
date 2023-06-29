@@ -58,7 +58,9 @@ export default {
         console.log("coucou")
         console.log(response.data.results[0])
 
+        this.store.setId(response.data.results[0].id_medecin)
         this.store.setNom(response.data.results[0].last_name)
+
         this.store.setPrenom(response.data.results[0].first_name)
         this.store.setMail(response.data.results[0].email)
         this.store.setNumero(response.data.results[0].num_phone)
