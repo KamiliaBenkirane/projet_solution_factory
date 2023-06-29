@@ -1,12 +1,17 @@
 <template>
   <SidebarMedecin />
+  <div class="page">
+    <img class="logo_ordotech" src="../../assets/logo/OrdoTech_logo.png">
+
+
   <div v-show="!numSecuValide" class="form-container" id="OrdonnanceForm">
     <div class="signup_form register">
-      <h1 class="titre_form">Prescription médicale</h1>
+      <h1 class="titre_form">Prescription médicale<img class="icone" src="../../assets/icones/sante.png">
+      </h1>
       <form @submit.prevent="submitForm()" id="form_ordo">
         <div class="ligne">
-          <label for="numSecu">Numéro de Sécurité Social de l'étudiant</label>
-          <input id="numSecu" v-model="numSecu" type="number" required>
+          <label for="numSecu">Numéro de Sécurité Sociale de l'étudiant</label>
+          <input id="numSecu" v-model="numSecu" type="number" placeholder="N° Sécurité Sociale" required>
         </div>
         <div id="medicament_container">
           <div class="medicament m1">
@@ -18,11 +23,11 @@
             <div class="ligne_container">
               <div class="ligne">
                 <label for="nbFoisParJour">Nombre de fois par jour</label>
-                <input id="nbFoisParJour" v-model="nbFoisParJour" type="number" required>
+                <input id="nbFoisParJour" v-model="nbFoisParJour" placeholder="Exemple : 3" type="number" required>
               </div>
               <div class="ligne">
                 <label for="nbJour">Pendant cb de jours ?</label>
-                <input id="nbJour" v-model="nbJour" type="number" required>
+                <input id="nbJour" v-model="nbJour" type="number" placeholder="Exemple : 7" required>
               </div>
             </div>
           </div>
@@ -58,6 +63,7 @@
         <button class="signupButton" @click="generatePDF(today); postOrdonnance()">Générer PDF</button>
       </div>
     </div>
+  </div>
   </div>
 </template>
     
@@ -316,6 +322,34 @@ export default {
 </script>
 
 <style scoped>
+
+.titre_form{
+  color : #d0f0db;
+  display: flex;
+  font-size : 35px;
+  justify-content: center;
+  align-items: center;
+  gap : 10px;
+}
+.page{
+  height : 100vh;
+  width : 100vw;
+  margin : 0;
+  display : flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo_ordotech{
+  height: 9vh;
+  width: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
 p {
   line-height: 20px;
 }
@@ -344,13 +378,18 @@ select {
   align-self: center;
   border: none;
   border-radius: 5px;
-  background-color: #F0F0F0;
+  background-color: #E0E0E0;
 }
 
 #addMedicament:hover {
-  background-color: #E0E0E0;
+  background-color: #C9C9C9;
   cursor: pointer;
 
+}
+
+.icone{
+  height : 50px;
+  width: auto;
 }
 
 input {

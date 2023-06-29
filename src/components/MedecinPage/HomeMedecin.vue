@@ -46,16 +46,21 @@
         </div>
         <div class="child-grid box4">
           <h3> Etudiants en suivi </h3>
-          <div class="liste_etudiant">
+          <div v-if="etudiants.length!==0" class="liste_etudiant">
             <div v-for="etudiant in etudiants" key="num_secu" class="etudiant-item">
               <img src="../../assets/icones/avatar.png" alt="icone_pdf">
               <div class="infos_etudiant">
-                <p>{{etudiant.prenom}} {{etudiant.nom}}</p>
-                <p>Nº sécurité sociale :  {{etudiant.num_secu}}</p>
+                <p>{{etudiant.first_name}} {{etudiant.last_name}}</p>
+                <p>Nº sécurité sociale :  {{etudiant.id_patient}}</p>
               </div>
             </div>
             <p class="voir-plus">Voir tous les étudiants en suivi &#8594;</p>
 
+          </div>
+          <div v-else class="aucun-etudiant">
+            <img src="../../assets/icones/aucun_etudiant.png" alt="icone_aucun_res">
+
+            <h4>Aucun étudiant en suivi <br> pour le moment</h4>
           </div>
 
         </div>
@@ -86,30 +91,13 @@ export default {
   data(){
     return{
 
-      etudiants : [{
-        num_secu : 1,
-        nom : "Nom",
-        prenom : "Prénom",
-        ordonnances_nb : 3,
-      },
-        {
-        num_secu : 2,
-          nom : "Nom",
-        prenom : "Prénom",
-        ordonnances_nb : 3,
-      },
-        {
-        num_secu : 3,
-        nom : "Nom",
-        prenom : "Prénom",
-        ordonnances_nb : 3,
-      },
-      ],
+      etudiants : [],
       ordos : []
     }
   },
   created(){
     this.getOrdonnances()
+    this.getEtudiantsSuivi()
   },
   methods : {
 
@@ -123,6 +111,17 @@ export default {
         console.log(err)
       })
     },
+    getEtudiantsSuivi(){
+      axios.post("http://localhost:5001/getEtudiantsSuivi", {
+        id_medecin : this.store.getId(),
+      }).then(response=>{
+        console.log(response.data)
+        this.etudiants = response.data
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+
 
     formatDate(dateString) {
       const date = new Date(dateString);
@@ -138,7 +137,7 @@ export default {
       if (length === 1) {
         return [ordo[0]];
       } else if (length > 1) {
-        return ordo.slice(length - 2);
+        return ordo.slice(length - 2).reverse();
       } else {
         return [];
       }
@@ -331,6 +330,7 @@ export default {
   grid-area: 1 / 6 / 5 / 8;
   background-color: #203f6b;
   z-index: 55;
+
 }
 
 .liste_ordo{
@@ -385,6 +385,7 @@ export default {
   gap : 20px;
   border-radius: 10px;
   padding : 0 15px;
+  font-size : 15px;
 }
 
 
@@ -457,6 +458,28 @@ a{
   height : 90px;
   width : auto;
 }
+
+.aucune-ordo h4{
+  text-align: center;
+}
+.aucun-etudiant{
+  height : 80%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.aucun-etudiant img{
+  height : 110px;
+  width : auto;
+}
+
+.aucun-etudiant h4{
+  text-align: center;
+}
+
 
 @media screen and (max-width: 1300px) {
   .container{
