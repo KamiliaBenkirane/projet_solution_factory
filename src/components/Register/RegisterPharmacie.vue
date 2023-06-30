@@ -99,13 +99,22 @@ export default {
       .then(response => {
           // console.log(response.data)
           console.log("Pharmacie registeration success!")
+          alert("Votre structure a bien été enregistré !")
+          this.$router.push("/")
         })
         .catch(error => {
           console.error('Error:', error);
+          alert("Une erreur est survenue lors de l'inscription.")
         });
     }
   }
 }
 </script>
 
-<style src="../../style/login-register.css"></style>
+<style scoped>
+.signupButton {
+  width: 100%;
+}
+
+
+</style>
