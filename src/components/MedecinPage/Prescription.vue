@@ -1,12 +1,17 @@
 <template>
   <SidebarMedecin />
+  <div class="page">
+    <img class="logo_ordotech" src="../../assets/logo/OrdoTech_logo.png">
+
+
   <div v-show="!numSecuValide" class="form-container" id="OrdonnanceForm">
     <div class="signup_form register">
-      <h1 class="titre_form">Prescription médicale</h1>
+      <h1 class="titre_form">Prescription médicale<img class="icone" src="../../assets/icones/sante.png">
+      </h1>
       <form @submit.prevent="submitForm()" id="form_ordo">
         <div class="ligne">
-          <label for="numSecu">Numéro de Sécurité Social de l'étudiant</label>
-          <input id="numSecu" v-model="numSecu" type="number" required>
+          <label for="numSecu">Numéro de Sécurité Sociale de l'étudiant</label>
+          <input id="numSecu" v-model="numSecu" type="number" placeholder="N° Sécurité Sociale" required>
         </div>
         <div id="medicament_container">
           <div class="medicament m1">
@@ -18,11 +23,11 @@
             <div class="ligne_container">
               <div class="ligne">
                 <label for="nbFoisParJour">Nombre de fois par jour</label>
-                <input id="nbFoisParJour" v-model="nbFoisParJour" type="number" required>
+                <input id="nbFoisParJour" v-model="nbFoisParJour" placeholder="Exemple : 3" type="number" required>
               </div>
               <div class="ligne">
                 <label for="nbJour">Pendant cb de jours ?</label>
-                <input id="nbJour" v-model="nbJour" type="number" required>
+                <input id="nbJour" v-model="nbJour" type="number" placeholder="Exemple : 7" required>
               </div>
             </div>
           </div>
@@ -55,9 +60,10 @@
             <b><u>Numéro téléphone :</u></b> {{ numEtudiant }}<br>
           </p>
         </div>
-        <button class="signupButton" @click="generatePDF()">Générer PDF</button>
+        <button class="signupButton" @click="generatePDF(today); postOrdonnance()">Générer PDF</button>
       </div>
     </div>
+  </div>
   </div>
 </template>
     
@@ -66,10 +72,16 @@ import { jsPDF } from "jspdf";
 import SidebarMedecin from "@/components/MedecinPage/SidebarMedecin.vue";
 import logo from '@/assets/logo/OrdoTech_logo.png';
 import axios from 'axios'
+import { useSessionStore} from "@/stores/session";
+
 
 export default {
   components: {
     SidebarMedecin
+  },
+  setup () {
+    const store = useSessionStore()
+    return{store}
   },
   data() {
     return {
@@ -79,16 +91,22 @@ export default {
 
       nbJour: null,
       prescriptionGenerated: false,
-      nomMedecin: 'Nom',
-      prenomMedecin: 'Prénom',
-      numMedecin: '0625221555',
+      nomMedecin: this.store.getNom(),
+      prenomMedecin: this.store.getPrenom(),
+      numMedecin: this.store.getNumero(),
       adresseMedecin: "Adresse",
+      numRue : this.store.getNumRue(),
+      rue : this.store.getRue(),
+      code_postal : this.store.getCodePostal(),
+      ville : this.store.getVille(),
       prenomEtudiant: '',
       nomEtudiant: '',
       numEtudiant: null,
       nbMedicament: 1,
+      idEtudiant : null,
       drugs : [],
-
+      today : new Date(),
+      infoMedicaments : []
     }
   },
   created() {
@@ -101,7 +119,8 @@ export default {
       for (var i = 0; i < objets.length; i++) {
         var objet = objets[i];
         var nouvelObjet = {
-          text: objet.name_drug
+          text: objet.name_drug,
+          option : objet.id_drug
         };
 
         if (i === 0) {
@@ -114,16 +133,31 @@ export default {
       return resultat;
     },
 
+    postOrdonnance(){
+      let infoOrdonnance = {
+        id_medecin : this.store.getId(),
+        id_patient : parseInt(this.idEtudiant),
+        date : this.formatDate(this.today)[0],
+        infoMedicaments : this.infoMedicaments
+      }
+      console.log(infoOrdonnance)
+
+      axios.post("http://localhost:5001/addOrdonnance", infoOrdonnance).then(response=>{
+        alert("Ordonnance ajoutée à la base de données")
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+
 
     fillSelectMedicament() {
-      console.log(this.drugs)
 
       var selectBox = document.getElementById('medicament-select');
       let listOptions = this.modifyList(this.drugs)
 
       for (var i = 0; i < listOptions.length; i++) {
         var drug = listOptions[i];
-        selectBox.add(new Option(drug.text, drug.text, drug.selected));
+        selectBox.add(new Option(drug.text, drug.option, drug.selected));
       }
     },
     getDrugs() {
@@ -144,13 +178,10 @@ export default {
           this.numSecuValide = true
           this.prescriptionGenerated = true;
 
-          console.log(response.data)
           this.prenomEtudiant = response.data[0].first_name
           this.nomEtudiant = response.data[0].last_name
           this.numEtudiant = response.data[0].num_phone
-          console.log(this.numEtudiant)
-          console.log(this.nomEtudiant)
-          console.log(this.prenomEtudiant)
+          this.idEtudiant = response.data[0].id_patient
 
 
 
@@ -201,22 +232,11 @@ export default {
         this.nbMedicament += 1
         clonedDiv.classList.remove('m1');
         clonedDiv.classList.add(`m${this.nbMedicament}`);
-        console.log(clonedDiv)
         formContainer.appendChild(clonedDiv);
 
       }
     },
-
-
-
-    generatePDF() {
-      const doc = new jsPDF();
-
-      doc.setFont("Helvetica, Arial, sans-serif"); // Choisissez une police agréable.
-
-      doc.setFontSize(12); // Réduisez la taille de la police pour le contenu.
-
-      const today = new Date();
+    formatDate(today){
       const yyyy = today.getFullYear();
       let mm = today.getMonth() + 1; // Months start at 0!
       let dd = today.getDate();
@@ -226,6 +246,25 @@ export default {
 
       const formattedTodayPdf = dd + '-' + mm + '-' + yyyy;
       const formattedTodaySignature = dd + '/' + mm + '/' + yyyy;
+      const dates = [];
+      dates[0] = formattedTodayPdf
+      dates[1] = formattedTodaySignature
+      return dates
+    },
+
+
+
+    generatePDF(today) {
+      const doc = new jsPDF();
+
+      doc.setFont("Helvetica, Arial, sans-serif"); // Choisissez une police agréable.
+
+      doc.setFontSize(12); // Réduisez la taille de la police pour le contenu.
+
+
+     const formattedTodayPdf = this.formatDate(today)[0]
+      const formattedTodaySignature = this.formatDate(today)[1]
+
 
 
       const imgData = logo;
@@ -234,13 +273,13 @@ export default {
 
       // Informations médecin
       doc.text(`${this.prenomMedecin} ${this.nomMedecin}\nMédecin généraliste`, 20, 50);
-      doc.text(`Adresse : ${this.adresseMedecin}\nTel cabinet : ${this.numMedecin}`, 130, 50);
+      doc.text(`Adresse : ${this.numRue} rue ${this.rue}, ${this.ville} ${this.code_postal}  \nTel cabinet : ${this.numMedecin}`, 110, 50);
 
 
 
       //Informations étudiant(e)
       doc.text(`${this.prenomEtudiant} ${this.nomEtudiant}\nNuméro de sécurité social de l'étudiant(e) : ${this.numSecu}`, 20, 70);
-      doc.text(`Tel étudiant(e) : ${this.numEtudiant}`, 130, 70);
+      doc.text(`Tel étudiant(e) : ${this.numEtudiant}`, 110, 70);
 
 
       //Informations ordonnance médicaments
@@ -248,15 +287,25 @@ export default {
       doc.text(`Prescription : `, 20, 110);
       for (let i = 1; i < this.nbMedicament + 1; i++) {
 
-        const medication = document.querySelector(`.m${i} #medicament-select`).options[document.querySelector(`.m${i} #medicament-select`).selectedIndex].text
-        console.log(`${i}`, medication)
+        const medicament = parseInt(document.querySelector(`.m${i} #medicament-select`).options[document.querySelector(`.m${i} #medicament-select`).selectedIndex].value)
+
+
+
+        const medication= document.querySelector(`.m${i} #medicament-select`).options[document.querySelector(`.m${i} #medicament-select`).selectedIndex].text
+        console.log(medication)
+
 
         var nbFoisParJour = document.querySelector(`.m${i} #nbFoisParJour`).value
+        var nbFoisParJourInt = parseInt(document.querySelector(`.m${i} #nbFoisParJour`).value)
         var nbJour = document.querySelector(`.m${i} #nbJour`).value
+        var nbJourInt = parseInt(document.querySelector(`.m${i} #nbJour`).value)
+
 
 
         doc.text(`Médicament prescrit : ${medication}\nA prendre ${nbFoisParJour} fois par jour pendant pendant ${nbJour} jours`, 20, y_medoc);
         y_medoc += 20;
+        this.infoMedicaments.push([medicament, nbFoisParJourInt, nbJourInt])
+        console.log(this.infoMedicaments)
       }
 
 
@@ -273,6 +322,34 @@ export default {
 </script>
 
 <style scoped>
+
+.titre_form{
+  color : #d0f0db;
+  display: flex;
+  font-size : 35px;
+  justify-content: center;
+  align-items: center;
+  gap : 10px;
+}
+.page{
+  height : 100vh;
+  width : 100vw;
+  margin : 0;
+  display : flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo_ordotech{
+  height: 9vh;
+  width: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
 p {
   line-height: 20px;
 }
@@ -301,13 +378,18 @@ select {
   align-self: center;
   border: none;
   border-radius: 5px;
-  background-color: #F0F0F0;
+  background-color: #E0E0E0;
 }
 
 #addMedicament:hover {
-  background-color: #E0E0E0;
+  background-color: #C9C9C9;
   cursor: pointer;
 
+}
+
+.icone{
+  height : 50px;
+  width: auto;
 }
 
 input {

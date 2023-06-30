@@ -7,6 +7,7 @@
         <div class="signup_form">
 
           <h1 class="titre_form">Créer un compte</h1>
+          <form @submit.prevent="registerMedecin()" id="form_ordo">
           <div class="ligne_container">
           <div class="ligne">
             <label><b>Nom</b></label>
@@ -28,14 +29,33 @@
 
           <div class="ligne">
             <label><b>Numéro de téléphone</b></label>
-            <input type="number" v-model="numero" placeholder="Numéro" name="numero" required>
+            <input type="number" v-model="num" placeholder="Numéro" name="numero" required>
           </div>
 
           </div>
 
-          <div class="ligne">
-            <label><b>Adresse</b></label>
-            <input type="text" v-model="adresse" placeholder="Adresse" name="adresse" required>
+          <div class="ligne_container">
+            <div class="ligne">
+              <label><b>N°</b></label>
+              <input type="text" v-model="num_rue" placeholder="N°" name="num_rue" required>
+            </div>
+            <div class="ligne">
+              <label><b>Rue</b></label>
+              <input type="text" v-model="rue" placeholder="Rue" name="rue" required>
+            </div>
+          </div>
+
+          <div class="ligne_container">
+            <div class="ligne">
+              <label><b>Code Postal</b></label>
+              <input type="number" v-model="code_postal" placeholder="Code Postal" name="code_postal" required>
+            </div>
+
+
+            <div class="ligne">
+              <label><b>Ville</b></label>
+              <input type="text" v-model="ville" placeholder="Ville" name="ville" required>
+            </div>
           </div>
 
 
@@ -45,7 +65,8 @@
             <input type="password" v-model="mdp" placeholder="Mot de Passe" name="mdp" required>
           </div>
 
-          <button class="signupButton">M'inscrire !</button>
+          <button class="signupButton" type="submit">M'inscrire !</button>
+          </form>
         </div>
       </div>
     </div>
@@ -53,11 +74,47 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-  name: "RegisterMedecin"
+  name: "RegisterMedecin",
+  data(){
+    return{
+      code_postal : null,
+      rue : '',
+      num_rue : null,
+      ville : '',
+      prenom : '',
+      nom : '',
+      mdp : '',
+      num : '',
+      mail : ''
+    }
+  },
+  methods : {
+    registerMedecin(){
+      let info = {
+        prenom : this.prenom,
+        nom : this.nom,
+        mail : this.mail,
+        num : this.num,
+        num_rue : this.num_rue,
+        rue : this.rue,
+        ville : this.rue,
+        code_postal : this.code_postal,
+        mdp : this.mdp
+      }
+      axios.post("http://localhost:5001/createMedecin", info).then(response =>{
+        alert("Votre compte a été enregistré avec succès")
+        this.$router.push('/')
+      }).catch((err) => alert("Cette adresse mail est déjà enregistrée."));
+    }
+  }
 }
 </script>
 
-<style src="../../style/login-register.css">
+<style scoped>
+.signupButton {
+  width: 100%;
+}
 
 </style>
