@@ -38,7 +38,7 @@
         </div>
         <div class="pharmacie_proximite">
           <h3>Les pharmacies à proximité</h3>
-          <div class="map_pharmacie">
+          <div class="map_pharmacie" ref="mapRef">
             <!-- Map pharmacie à proximité à ajouter -->
           </div>
 
@@ -53,6 +53,9 @@
 
 <script>
 import SidebarUser from "@/components/UserPage/SidebarUser.vue";
+import { onMounted, ref } from "vue";
+import { Loader } from '@googlemaps/js-api-loader';
+
 
 export default {
   name: "HomeUser",
@@ -77,11 +80,94 @@ export default {
           patient : "Nom Prénom",
           date : "01/01/2023"
         },
+        {
+          map : null,
+          markers : [],
+          lat : null,
+          lng : null,
+          mapRef : ref(null)
+        },
       ]
     }
-  }
+  },
+  mounted(){
+    onMounted(() => {
+      this.loadGoogleMaps();
+    });
+  },
+    methods: {
+    async loadGoogleMaps() {
+      const loader = new Loader({
+        apiKey: 'AIzaSyD1trfJjj18USm4-CT-L4Omv1topSQpHNU',
+        version: 'weekly',
+        libraries: ['places']
+      });
+
+      try {
+        await loader.load();
+        this.initializeMap();
+      } catch (error) {
+        console.error('Failed to load Google Maps API', error);
+      }
+    },
+    initializeMap() {
+      console.log("initializeMap a été appelée");
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition( (position) =>
+        {
+          console.log("Position obtenue avec succès");
+          this.lat = position.coords.latitude;
+          this.lng = position.coords.longitude;
+
+            this.map = new window.google.maps.Map(this.$refs.mapRef, {
+              center: {lat: this.lat, lng: this.lng},
+              zoom: 14
+            });
+
+          // Once the map is initialized, search for nearby pharmacies
+          this.searchNearbyPharmacies();
+
+        }, (error) => {
+          console.log("Position obtenue avec succès");
+          console.error('Erreur lors de la récupération de la localisation', error);
+        });
+    } else {
+      
+        console.log("Geolocation is not supported by this browser.");
+      }
+    },
+    searchNearbyPharmacies() {
+      const service = new window.google.maps.places.PlacesService(this.map);
+
+      const request = {
+        location: new window.google.maps.LatLng(this.lat, this.lng),
+        radius: 500, // Distance en mètres pour la recherche des pharmacies à proximité
+        types: ['pharmacy']
+      };
+
+      service.nearbySearch(request, (results, status) => {
+        if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+          this.addMarkers(results);
+        }
+      });
+    },
+    addMarkers(places) {
+      for (let i = 0; i < places.length; i++) {
+        const place = places[i];
+
+        const marker = new window.google.maps.Marker({
+          position: place.geometry.location,
+          map: this.map,
+          title: place.name
+        });
+
+        this.markers.push(marker);
+      }
+    }
+  },
 }
 </script>
+
 
 <style scoped>
 
@@ -275,9 +361,11 @@ export default {
 
 }
 
+
 .pharmacie_proximite:hover{
   transform : scale(1.03);
 }
+
 
 .map_pharmacie{
   height : 80%;

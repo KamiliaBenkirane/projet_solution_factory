@@ -19,7 +19,7 @@
         </li>
 
         <li>
-          <a href="/">
+          <a href="/" @click="logout">
             <i class="bx bx-log-out" id="log_out"></i>
             <span class="links_name">Se déconnecter</span>
           </a>
@@ -79,6 +79,9 @@ export default {
         btn.classList = "bx bxs-arrow-from-right";
 
       }
+    },
+    logout(){
+      this.store.$reset()
     }
   }
 }
