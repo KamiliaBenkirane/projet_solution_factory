@@ -14,6 +14,15 @@ export const useSessionStore = defineStore('session', {
             code_postal : null,
             ville : '',
             numero : null,
+            id_medecinT : null,
+            prenom_medecinT : '',
+            nom_medecinT : '',
+            mail_medecinT : '',
+            numero_medecinT : null,
+            nom_pharma : '',
+            mail_pharma : '',
+            num_pharma : null
+
         },
     }),
     actions : {
@@ -45,6 +54,36 @@ export const useSessionStore = defineStore('session', {
         setNumero(n){
             this.user.numero = n
         },
+        setIdMedecinT(i){
+            this.user.id_medecinT = i
+        },
+        setPrenomMedecinT(i){
+            this.user.prenom_medecinT = i
+        },
+        setNomMedecinT(i){
+            this.user.nom_medecinT = i
+        },
+        setNumeroMedecinT(i){
+            this.user.numero_medecinT = i
+        },
+        setMailMedecinT(i){
+            this.user.mail_medecinT = i
+        },
+        setNomPharma(i){
+            this.user.nom_pharma = i
+        },
+        setMailPharma(i){
+            this.user.mail_pharma = i
+        },
+        setNumPharma(i){
+            this.user.num_pharma = i
+        },
+
+
+
+        getCodePostal(){
+            return this.user.code_postal
+        },
 
         getMail(){
             return this.user.mail
@@ -70,8 +109,29 @@ export const useSessionStore = defineStore('session', {
         getVille(){
             return this.user.ville
         },
-        getCodePostal(){
-            return this.user.code_postal
+        getIdMedecinT(){
+            return this.user.id_medecinT
+        },
+        getNomMedecinT(){
+            return this.user.nom_medecinT
+        },
+        getPrenomMedecinT(){
+            return this.user.prenom_medecinT
+        },
+        getMailMedecinT(){
+            return this.user.mail_medecinT
+        },
+        getNumeroMedecinT(){
+            return this.user.numero_medecinT
+        },
+        getNomPharma(){
+            return this.user.nom_pharma
+        },
+        getMailPharma(){
+            return this.user.mail_pharma
+        },
+        getNumPharma(){
+            return this.user.num_pharma
         },
     },
     persist : true

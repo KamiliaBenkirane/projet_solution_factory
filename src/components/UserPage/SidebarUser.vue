@@ -33,7 +33,7 @@
               <img src="../../assets/icones/avatar.png" alt="user_image" class="user_image justify-self-start">
             </div>
             <div class="name_type">
-              <div class="name" id="full_name"> Prénom Nom</div>
+              <div class="name" id="full_name"> {{ prenom }} {{ nom }}</div>
               <div class="type"> {{ role }} </div>
             </div>
           </div>
@@ -46,12 +46,21 @@
 </template>
 
 <script>
+import { useSessionStore} from "@/stores/session";
+
 export default {
   name: "Sidebar",
   data(){
     return {
-      role : "Rôle"
+      role : "Etudiant",
+      prenom : this.store.getPrenom(),
+      nom : this.store.getNom(),
     }
+  },
+
+  setup () {
+    const store = useSessionStore()
+    return{store}
   },
   mounted() {
     let sidebar = document.querySelector(".sidebar");

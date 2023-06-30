@@ -56,19 +56,45 @@ export default {
         mdp : this.mdp
       }).then(response=>{
         console.log("coucou")
-        console.log(response.data.results[0])
+        console.log(response)
+        if (response.data.message ==="login_medecin"){
+          console.log(response.data.results[0])
 
-        this.store.setId(response.data.results[0].id_medecin)
-        this.store.setNom(response.data.results[0].last_name)
+          this.store.setId(response.data.results[0].id_medecin)
+          this.store.setNom(response.data.results[0].last_name)
 
-        this.store.setPrenom(response.data.results[0].first_name)
-        this.store.setMail(response.data.results[0].email)
-        this.store.setNumero(response.data.results[0].num_phone)
-        this.store.setRue(response.data.results[0].street_name)
-        this.store.setNumRue(response.data.results[0].nb_street)
-        this.store.setVille(response.data.results[0].city)
-        this.store.setCodePostal(response.data.results[0].post_code)
-        this.$router.push("/homeMedecin")
+          this.store.setPrenom(response.data.results[0].first_name)
+          this.store.setMail(response.data.results[0].email)
+          this.store.setNumero(response.data.results[0].num_phone)
+          this.store.setRue(response.data.results[0].street_name)
+          this.store.setNumRue(response.data.results[0].nb_street)
+          this.store.setVille(response.data.results[0].city)
+          this.store.setCodePostal(response.data.results[0].post_code)
+          this.$router.push("/homeMedecin")
+        }
+        else if(response.data.message === 'login_user'){
+          console.log(response.data.result)
+          this.store.setId(response.data.result[0].id_patient)
+          this.store.setNom(response.data.result[0].last_name)
+          this.store.setPrenom(response.data.result[0].first_name)
+          this.store.setMail(response.data.result[0].email)
+          this.store.setNumero(response.data.result[0].num_phone)
+          this.store.setIdMedecinT(response.data.result[0].id_medecin_treat)
+          this.store.setPrenomMedecinT(response.data.result[0].first_name_medecin)
+          this.store.setNomMedecinT(response.data.result[0].last_name_medecin)
+          this.store.setNumeroMedecinT(response.data.result[0].num_phone_medecin)
+          this.store.setMailMedecinT(response.data.result[0].email_medecin)
+          this.$router.push("/homeUser")
+        }
+        else{
+          console.log(response.data.results)
+          this.store.setNomPharma(response.data.results[0].name_pharma)
+          this.store.setMailPharma(response.data.results[0].email)
+          this.store.setNumPharma(response.data.results[0].num_phone)
+
+          this.$router.push("/homePharmacie")
+        }
+
       }).catch(err=>{
         alert("Mail ou mot de passe invalide !")
         console.log(err)

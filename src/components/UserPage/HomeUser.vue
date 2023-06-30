@@ -8,7 +8,7 @@
         <div class="medecin">
           <img src="../../assets/icones/avatar-homme.png" alt="icone_avatar">
           <div class="infos_medecin">
-            <p>{{medecinTraitant.nom}} {{medecinTraitant.prenom}}<br>{{medecinTraitant.mail}} <br> num : {{medecinTraitant.numero}}</p>
+            <p>{{medecinTraitant.prenom}} {{medecinTraitant.nom}}<br>{{medecinTraitant.mail}} <br> num : {{medecinTraitant.numero}}</p>
           </div>
         </div>
 
@@ -55,6 +55,7 @@
 import SidebarUser from "@/components/UserPage/SidebarUser.vue";
 import { onMounted, ref } from "vue";
 import { Loader } from '@googlemaps/js-api-loader';
+import { useSessionStore} from "@/stores/session";
 
 
 export default {
@@ -62,13 +63,18 @@ export default {
   components : {
     SidebarUser
   },
+
+  setup () {
+    const store = useSessionStore()
+    return{store}
+  },
   data(){
     return{
       medecinTraitant : {
-        nom : "Nom",
-        prenom : "Prénom",
-        mail : "nomprenom@gmail.com",
-        numero : "066251478"
+        nom : this.store.getNomMedecinT(),
+        prenom : this.store.getPrenomMedecinT(),
+        mail : this.store.getMailMedecinT(),
+        numero : this.store.getNumeroMedecinT()
       },
       nouvellesOrdos : [{
         id_ordo : 1,
