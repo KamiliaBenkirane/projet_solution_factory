@@ -11,7 +11,7 @@
         <div v-for="ordo in suppressDoublons(ordos).reverse()" key="id_ordo" class="ordo-item">
           <img class="icone_ordo" src="../../assets/icones/ordonnance2.png" alt="logo_ordo">
           <div>
-            <p><span><i class='bx bxs-user'></i> Etudiant : {{ordo.first_name}}  {{ordo.last_name}}<br></span><span><i class='bx bx-health'></i> N° Sécurité Sociale : {{ordo.id_patient}}<br></span> <span><i class='bx bxs-calendar-alt'></i> Faite le : {{formatDateWord(ordo.date)}}</span></p>
+            <p><span><i class='bx bxs-user'></i> Etudiant(e) : {{ordo.first_name}}  {{ordo.last_name}}<br></span><span><i class='bx bx-health'></i> N° Sécurité Sociale : {{ordo.id_patient}}<br></span> <span><i class='bx bxs-calendar-alt'></i> Faite le : {{formatDateWord(ordo.date)}}</span></p>
           </div>
           <div class="buttons">
             <p @click="generatePDF(ordo)" title="Télécharger l'ordonnance"><i class='bx bxs-download'></i></p>
@@ -53,7 +53,8 @@ export default {
   methods : {
     getOrdonnances(){
       axios.post("http://localhost:5001/getOrdonnances", {
-        id_medecin : this.store.getId(),
+        role : "id_medecin",
+        id : this.store.getId(),
       }).then(response=>{
         console.log(response.data)
         this.ordos = response.data

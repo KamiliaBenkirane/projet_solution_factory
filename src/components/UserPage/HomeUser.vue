@@ -8,7 +8,7 @@
         <div class="medecin">
           <img src="../../assets/icones/avatar-homme.png" alt="icone_avatar">
           <div  class="infos_medecin">
-            <p>{{medecinTraitant.prenom}} {{medecinTraitant.nom}}<br>{{medecinTraitant.mail}} <br> num : {{medecinTraitant.numero}}</p>
+            <p><i class='bx bxs-user'></i> {{medecinTraitant.prenom}} {{medecinTraitant.nom}}<br><i class='bx bxs-envelope'></i> {{medecinTraitant.mail}} <br><i class='bx bxs-phone'></i> {{medecinTraitant.numero}}</p>
           </div>
         </div>
 
@@ -16,23 +16,29 @@
       <div class="bloc_ordo">
         <div class="nouvelles_ordo">
           <div class="titre_nouvelles_ordo"><h3>Mes nouvelles ordonnances </h3><img src="../../assets/icones/ordonnance3.png" alt="icone_avatar"></div>
-          <div class="liste-ordo">
+          <div  v-if="ordos.length!==0" class="liste-ordo">
 
-            <div v-for="ordo in nouvellesOrdos" key="id_ordo" class="ordo-item">
+            <div v-for="ordo in lastTwoValues(suppressDoublons(ordos))" key="id_ordo" class="ordo-item">
               <div class="red-dot"></div>
-              <p>{{ordo.date}}</p>
+              <p>Dr. {{ordo.medecin_last_name}}<br>{{formatDate(ordo.date)}}</p>
               <img src="../../assets/icones/pdf.png">
               <div class="icones_pdf">
-                <img src="../../assets/icones/download-regular-48.png"><img src="../../assets/icones/send-solid-48.png">
+                <img src="../../assets/icones/download-regular-48.png" @click="generatePDF(ordo)">
+                <img src="../../assets/icones/send-solid-48.png">
               </div>
 
 
 
             </div>
 
+            <p class="historique"><router-link to="/historiquePatient">Voir toutes mes ordonnances &#8594;</router-link> </p>
+          </div>
+          <div v-else class="aucune-ordo">
+            <img src="../../assets/icones/aucun-resultat-blanc.png" alt="icone_aucun_res">
+            <h4>Aucune ordonnance pour le moment</h4>
 
           </div>
-          <p class="historique">Voir toutes mes ordonnances &#8594;</p>
+
 
 
         </div>
@@ -56,6 +62,9 @@ import SidebarUser from "@/components/UserPage/SidebarUser.vue";
 import { onMounted, ref } from "vue";
 import { Loader } from '@googlemaps/js-api-loader';
 import { useSessionStore} from "@/stores/session";
+import axios from 'axios';
+import {jsPDF} from "jspdf";
+import logo from "@/assets/logo/OrdoTech_logo.png";
 
 
 export default {
@@ -76,17 +85,7 @@ export default {
         mail : this.store.getMailMedecinT(),
         numero : this.store.getNumeroMedecinT()
       },
-      nouvellesOrdos : [{
-        id_ordo : 1,
-        patient : "Nom Prénom",
-        date : "01/01/2023"
-      },
-        {
-          id_ordo : 2,
-          patient : "Nom Prénom",
-          date : "01/01/2023"
-        },
-      ]
+      ordos : [],
     }
   },
   mounted(){
@@ -94,7 +93,125 @@ export default {
       this.loadGoogleMaps();
     });
   },
+  created(){
+    this.getOrdonnances()
+  },
     methods: {
+      getOrdonnances(){
+        axios.post("http://localhost:5001/getOrdonnances", {
+          role : "id_patient",
+          id : this.store.getId(),
+        }).then(response=>{
+          console.log(response.data)
+          this.ordos = response.data
+          console.log(this.ordos)
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      formatDate(dateString) {
+        const date = new Date(dateString);
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+
+        return `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
+      },
+      suppressDoublons(list){
+        const result = {};
+        if(list.length===0){
+          return []
+        }
+        else{
+          list.forEach((obj) => {
+            const {id_ordo, id_patient, first_name, last_name, date, num_phone, medecin_first_name, medecin_last_name, medecin_num_phone, nb_street, street_name, city, post_code} = obj;
+            const key = `${id_ordo}-${id_patient}-${first_name}-${last_name}-${date}-${num_phone}-${medecin_last_name}-${medecin_num_phone}-${medecin_first_name}-${city}-${nb_street}-${street_name}-${post_code}`;
+
+            result[key] = {
+              id_ordo,
+              id_patient,
+              first_name,
+              last_name,
+              date,
+              num_phone,
+              medecin_num_phone,
+              medecin_last_name,
+              medecin_first_name,
+              nb_street,
+              street_name,
+              city,
+              post_code
+
+            }
+          });
+          return Object.values(result);
+        }
+      },
+      generatePDF(ordo) {
+        const doc = new jsPDF();
+
+        doc.setFont("Helvetica, Arial, sans-serif"); // Choisissez une police agréable.
+
+        doc.setFontSize(12); // Réduisez la taille de la police pour le contenu.
+
+
+
+
+        const imgData = logo;
+
+        doc.addImage(imgData, 'PNG', 85, 10, 48, 12);
+
+        // Informations médecin
+        doc.text(`${ordo.medecin_first_name} ${ordo.medecin_last_name}\nMédecin généraliste`, 20, 50);
+        doc.text(`Adresse : ${ordo.nb_street} rue ${ordo.street_name}, ${ordo.city} ${ordo.post_code}  \nTel cabinet : ${ordo.medecin_num_phone}`, 110, 50);
+
+
+
+        //Informations étudiant(e)
+        doc.text(`${ordo.first_name} ${ordo.last_name}\nNuméro de sécurité social de l'étudiant(e) : ${ordo.id_patient}`, 20, 70);
+        doc.text(`Tel étudiant(e) : ${ordo.num_phone}`, 110, 70);
+
+
+        //Informations ordonnance médicaments
+        var y_medoc = 120
+        doc.text(`Prescription : `, 20, 110);
+
+        const filteredOrdo = this.ordos.filter((ordonnance) => ordonnance.id_ordo === ordo.id_ordo);
+
+
+        for (let i = 0; i < filteredOrdo.length; i++) {
+
+
+
+
+
+          const medicament = filteredOrdo[i].name_drug
+          const nbFoisParJour = filteredOrdo[i].nb_fois_par_jour
+          const nbJour = filteredOrdo[i].nb_jour
+
+
+          doc.text(`Médicament prescrit : ${medicament}\nA prendre ${nbFoisParJour} fois par jour pendant pendant ${nbJour} jours`, 20, y_medoc);
+          y_medoc += 20;
+
+        }
+
+
+
+        doc.text(`Fait le ${this.formatDate(ordo.date)}\n\nSignature :`, 140, 220);
+
+
+        doc.save(`Ordonnance-${ordo.first_name}-${ordo.last_name}-${this.formatDate(ordo.date)}`);
+      },
+      lastTwoValues(ordo) {
+        const length = ordo.length;
+        if (length === 1) {
+          return [ordo[0]];
+        } else if (length > 1) {
+          return ordo.slice(length - 2).reverse();
+        } else {
+          return [];
+        }
+      },
     async loadGoogleMaps() {
       const loader = new Loader({
         apiKey: 'AIzaSyD1trfJjj18USm4-CT-L4Omv1topSQpHNU',
@@ -381,6 +498,30 @@ export default {
   top : -5px;
   right : -5px;
 }
+
+a{
+  color : lightgray;
+  text-decoration: none;
+}
+
+.aucune-ordo{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height : 70%;
+}
+
+.aucune-ordo img{
+  height : 90px;
+  width : auto;
+}
+
+.aucune-ordo h4{
+  text-align: center;
+}
+
+
 
 
 

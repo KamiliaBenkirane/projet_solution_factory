@@ -54,7 +54,7 @@
             <div v-for="etudiant in etudiants" key="num_secu" class="etudiant-item">
               <img src="../../assets/icones/avatar.png" alt="icone_pdf">
               <div class="infos_etudiant">
-                <p>{{etudiant.first_name}} {{etudiant.last_name}}<br>{{etudiant.email}}<br>Nº sécurité sociale :  {{etudiant.id_patient}}</p>
+                <p><i class='bx bxs-user'></i>{{etudiant.first_name}} {{etudiant.last_name}}<br><i class='bx bxs-envelope'></i> {{etudiant.email}}<br><i class='bx bx-health'></i> Nº sécu :  {{etudiant.id_patient}}</p>
 
               </div>
             </div>
@@ -107,7 +107,8 @@ export default {
 
     getOrdonnances(){
       axios.post("http://localhost:5001/getOrdonnances", {
-        id_medecin : this.store.getId(),
+        role : "id_medecin",
+        id : this.store.getId(),
       }).then(response=>{
         console.log(response.data)
         this.ordos = response.data
@@ -330,7 +331,7 @@ export default {
 }
 
 .box4 {
-  color : white;
+  color : #F9F9F9;
   grid-area: 1 / 6 / 5 / 8;
   background-color: #203f6b;
   z-index: 55;
@@ -525,6 +526,10 @@ a{
 
 .buttons p:hover{
   background-color: #33495b;
+}
+
+.box4 p{
+  line-height: 25px;
 }
 
 
