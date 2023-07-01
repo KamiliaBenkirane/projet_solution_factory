@@ -35,7 +35,7 @@
               <p>{{ordo.first_name}} {{ordo.last_name}} <br> {{formatDate(ordo.date)}}</p>
               <div class="buttons">
                 <p @click="generatePDF(ordo)" title="Télécharger l'ordonnance"><i class='bx bxs-download'></i></p>
-                <p title="Envoyer comme e-mail à l'école"><i class='bx bx-mail-send'></i></p>
+                <p @click="sendEmail(ordo)" title="Envoyer comme e-mail à l'école"><i class='bx bx-mail-send'></i></p>
               </div>
             </div>
             <p class="historique"><router-link to="/historiqueMedecin">Voir l'historique des ordonnances &#8594;</router-link></p>
