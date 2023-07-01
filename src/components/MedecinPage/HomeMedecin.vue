@@ -30,11 +30,15 @@
         <div class="child-grid box3">
           <h3> Ordonnances récentes <i class='bx bxs-hourglass-top'></i></h3>
           <div v-if="ordos.length!==0" class="liste_ordo">
-            <div  v-for="ordo in lastTwoValues(suppressDoublons(ordos))" key="num_secu" class="ordo-item"  @click="generatePDF(ordo)">
+            <div  v-for="ordo in lastTwoValues(suppressDoublons(ordos))" key="num_secu" class="ordo-item" >
               <img src="../../assets/icones/pdf.png" alt="icone_pdf">
               <p>{{ordo.first_name}} {{ordo.last_name}} <br> {{formatDate(ordo.date)}}</p>
+              <div class="buttons">
+                <p @click="generatePDF(ordo)" title="Télécharger l'ordonnance"><i class='bx bxs-download'></i></p>
+                <p title="Envoyer comme e-mail à l'école"><i class='bx bx-mail-send'></i></p>
+              </div>
             </div>
-            <p class="historique">Voir l'historique des ordonnances &#8594;</p>
+            <p class="historique"><router-link to="/historiqueMedecin">Voir l'historique des ordonnances &#8594;</router-link></p>
 
           </div>
           <div v-else class="aucune-ordo">
@@ -50,8 +54,8 @@
             <div v-for="etudiant in etudiants" key="num_secu" class="etudiant-item">
               <img src="../../assets/icones/avatar.png" alt="icone_pdf">
               <div class="infos_etudiant">
-                <p>{{etudiant.first_name}} {{etudiant.last_name}}</p>
-                <p>Nº sécurité sociale :  {{etudiant.id_patient}}</p>
+                <p>{{etudiant.first_name}} {{etudiant.last_name}}<br>{{etudiant.email}}<br>Nº sécurité sociale :  {{etudiant.id_patient}}</p>
+
               </div>
             </div>
             <p class="voir-plus">Voir tous les étudiants en suivi &#8594;</p>
@@ -339,19 +343,40 @@ export default {
   gap : 1vw;
 }
 
-.ordo-item{
-  padding : 25px 15px 25px 5px ;
+.ordo-item {
+  padding: 25px 15px 25px 5px;
   display: flex;
   flex-direction: row;
   align-items: center;
   border-radius: 5px;
   background-color: #8cd5eb;
+  position: relative;
+  z-index: 0;
 }
 
-.ordo-item:hover{
-  cursor : pointer;
-  background-color: #AEE1F1;
+.ordo-item:hover {
+  cursor: pointer;
+}
 
+.ordo-item:hover > .buttons > p{
+  display : block;
+
+}
+
+.ordo-item:hover::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(232, 246, 251, 0.87);
+  z-index: -1;
+  border-radius: 5px;
+}
+
+.ordo-item:hover > *:not(.buttons) {
+  opacity: 0.5;
 }
 
 .ordo-item img{
@@ -478,6 +503,28 @@ a{
 
 .aucun-etudiant h4{
   text-align: center;
+}
+
+.buttons{
+  display: flex;
+  gap : 15px;
+  position: absolute;
+  bottom: 50%; /* Modifier cette ligne */
+  right: 50%; /* Modifier cette ligne */
+  transform: translate(50%, 50%);
+}
+
+.buttons p{
+  font-size : 20px;
+  display: none;
+  padding : 8px;
+  border-radius: 4px;
+  background-color: #00101e;
+  color : white;
+}
+
+.buttons p:hover{
+  background-color: #33495b;
 }
 
 

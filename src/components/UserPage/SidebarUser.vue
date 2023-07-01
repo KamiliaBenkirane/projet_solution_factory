@@ -19,7 +19,7 @@
         </li>
 
         <li>
-          <a href="/" @click="logout">
+          <a href="/" @click="logout()">
             <i class="bx bx-log-out" id="log_out"></i>
             <span class="links_name">Se déconnecter</span>
           </a>

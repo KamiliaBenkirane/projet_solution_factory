@@ -79,11 +79,14 @@ export default {
           this.store.setPrenom(response.data.result[0].first_name)
           this.store.setMail(response.data.result[0].email)
           this.store.setNumero(response.data.result[0].num_phone)
-          this.store.setIdMedecinT(response.data.result[0].id_medecin_treat)
-          this.store.setPrenomMedecinT(response.data.result[0].first_name_medecin)
-          this.store.setNomMedecinT(response.data.result[0].last_name_medecin)
-          this.store.setNumeroMedecinT(response.data.result[0].num_phone_medecin)
-          this.store.setMailMedecinT(response.data.result[0].email_medecin)
+          if(response.data.result[0].id_medecin_treat!==null){
+            this.store.setIdMedecinT(response.data.result[0].id_medecin_treat)
+            this.store.setPrenomMedecinT(response.data.result[0].first_name_medecin)
+            this.store.setNomMedecinT(response.data.result[0].last_name_medecin)
+            this.store.setNumeroMedecinT(response.data.result[0].num_phone_medecin)
+            this.store.setMailMedecinT(response.data.result[0].email_medecin)
+          }
+
           this.$router.push("/homeUser")
         }
         else{

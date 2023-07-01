@@ -1,5 +1,4 @@
 <template>
-  <SidebarPharmacie/>
   <div class="page">
     <img class="logo_ordotech" src="../../assets/logo/OrdoTech_logo.png" alt="logo_ordotech">
     <div class="container">
@@ -9,22 +8,14 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
-import SidebarPharmacie from "@/components/PharmaciePage/SidebarPharmacie.vue";
-
 export default {
-  name: "HomePharmacie",
-  components: {
-    SidebarPharmacie
-  }
+  name: "HistoriqueOrdoPatient"
 }
 </script>
 
-<style scoped src="../../style/historique-recherche.css">
-
-
+<style scoped>
 
 </style>

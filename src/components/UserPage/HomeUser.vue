@@ -3,11 +3,11 @@
   <div class="page">
     <img class="logo_ordotech" src="../../assets/logo/OrdoTech_logo.png">
     <div class="container">
-      <div class="bloc_medecin">
+      <div v-if="medecinTraitant.prenom!==''" class="bloc_medecin">
         <h3>Mon médecin traitant</h3>
         <div class="medecin">
           <img src="../../assets/icones/avatar-homme.png" alt="icone_avatar">
-          <div class="infos_medecin">
+          <div  class="infos_medecin">
             <p>{{medecinTraitant.prenom}} {{medecinTraitant.nom}}<br>{{medecinTraitant.mail}} <br> num : {{medecinTraitant.numero}}</p>
           </div>
         </div>
@@ -85,13 +85,6 @@ export default {
           id_ordo : 2,
           patient : "Nom Prénom",
           date : "01/01/2023"
-        },
-        {
-          map : null,
-          markers : [],
-          lat : null,
-          lng : null,
-          mapRef : ref(null)
         },
       ]
     }

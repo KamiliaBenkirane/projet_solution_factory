@@ -8,6 +8,8 @@ import HomeUser from '../components/UserPage/HomeUser.vue';
 import HomeMedecin from '../components/MedecinPage/HomeMedecin.vue';
 import HomePharmacie from '../components/PharmaciePage/HomePharmacie.vue';
 import Prescription from '../components/MedecinPage/Prescription.vue';
+import HistoriqueMedecin from '../components/MedecinPage/HistoriqueOrdoMedecin.vue';
+import HistoriquePatient from '../components/UserPage/HistoriqueOrdoPatient.vue';
 
 const routes = [
     {path: '/', component: Login},
@@ -18,7 +20,9 @@ const routes = [
     {path: '/homeUser', component: HomeUser},
     {path: '/homeMedecin', component: HomeMedecin},
     {path: '/homePharmacie', component: HomePharmacie},
-    {path: '/prescription', component: Prescription}
+    {path: '/prescription', component: Prescription},
+    {path: '/historiqueMedecin', component: HistoriqueMedecin},
+    {path: '/historiquePatient', component: HistoriquePatient},
 ];
 
 const router = createRouter({
