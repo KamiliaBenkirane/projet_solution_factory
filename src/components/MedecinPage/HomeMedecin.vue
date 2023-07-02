@@ -129,13 +129,14 @@ export default {
     async sendEmail(ordo) {
         // préparer les informations de l'email
         const mailData = { 
+            to : 'amineelfe@gmail.com',
             subject: `Justificatif d'absence pour ${ordo.first_name} ${ordo.last_name}`,
             text: `Monsieur/Madame ${ordo.first_name} ${ordo.last_name} sera absent(e) le ${this.formatDate(ordo.date)} pour des raisons médicales`
         };
         
         try {
             // envoyer une requête POST à l'API de votre serveur pour envoyer l'email
-            const response = await axios.get('http://localhost:5001/sendemails', mailData);
+            const response = await axios.post('http://localhost:5001/sendemails', mailData);
 
             // afficher le message de succès ou d'échec selon la réponse du serveur
             if (response.data.status === 'success') {
