@@ -49,7 +49,7 @@
         <div class="pharmacie_proximite">
           <h3>Les pharmacies à proximité</h3>
           <div class="map_pharmacie" ref="mapRef">
-            <!-- Map pharmacie à proximité à ajouter -->
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2626.847075833089!2d2.3559762759380263!3d48.82297917132739!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e671861d3f69dd%3A0xb0a7c98393ccbac0!2sPharmacie%20Italie%20Sud!5e0!3m2!1sfr!2sfr!4v1688309819291!5m2!1sfr!2sfr" width="100%" height="100%" style="border:0; border-radius : 5px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
 
         </div>
@@ -555,7 +555,7 @@ export default {
   width: 50%;
   height: 100%;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-  background-color: #96acc5;
+  background-color: #ABBCD0;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -575,7 +575,6 @@ export default {
 .map_pharmacie {
   height: 80%;
   width: 90%;
-  background-color: #4c6588;
 }
 
 .red-dot {

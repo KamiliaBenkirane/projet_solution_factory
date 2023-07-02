@@ -86,7 +86,6 @@ import SidebarMedecin from '@/components/MedecinPage/SidebarMedecin.vue'
 import axios from 'axios'
 import {useSessionStore} from "@/stores/session";
 import logo from "@/assets/logo/OrdoTech_logo.png";
-import { RouterLink, RouterView, router } from 'vue-router';
 
 export default {
   name: "HomeMedecin",
@@ -401,18 +400,20 @@ export default {
   background-color: #8cd5eb;
   position: relative;
   z-index: 0;
+  transition : all 0.2s ease;
+
 }
 
-.ordo-item:hover {
-  cursor: pointer;
-}
 
 .ordo-item:hover > .buttons > p{
   display : block;
+  cursor : pointer;
+  transition : 0.2s ease;
 
 }
 
 .ordo-item:hover::after {
+  transition : 0.2s ease;
   content: "";
   position: absolute;
   top: 0;
@@ -514,7 +515,7 @@ export default {
   align-self: flex-end;
   position: absolute; /* Add this */
   bottom: 0; /* Add this */
-  right: -10px;
+  right: 20px;
   color : #404040;
 }
 
