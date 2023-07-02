@@ -28,7 +28,7 @@
               <img src="../../assets/icones/pdf.png">
               <div class="icones_pdf">
                 <img src="../../assets/icones/download-regular-48.png" title="Télécharger l'ordonnance" @click="generatePDF(ordo)">
-                <img src="../../assets/icones/send-solid-48.png" title="Donner l'accès à la pharmacie" @click="openModal()">
+                <img src="../../assets/icones/send-solid-48.png" title="Donner l'accès à la pharmacie" @click="openModal(ordo)">
               </div>
 
 
@@ -78,7 +78,7 @@
                   <i class='bx bxs-map'></i> Address: {{ pharma.address.nb_street }} {{ pharma.address.street_name }}, {{ pharma.address.post_code }}{{ pharma.address.city }}
                 </p></div>
               <div>
-                <p class="bouton_acces" @click="">Autoriser l'accès à l'ordonnance <i class='bx bxs-lock-open'></i></p>
+                <p class="bouton_acces" @click="sendToPharma(pharma.id_pharma)">Autoriser l'accès à l'ordonnance <i class='bx bxs-lock-open'></i></p>
               </div>
 
             </div>
@@ -124,7 +124,8 @@ export default {
       },
       ordos: [],
       showModal: false,
-      pharmacies: []
+      pharmacies: [],
+      selectedOrdo: null
     }
   },
   mounted() {
@@ -138,17 +139,19 @@ export default {
   },
 
   methods: {
-    openModal() {
+    openModal(ordo) {
       this.showModal = true;
+      this.selectedOrdo = ordo;
     },
     closeModal() {
       this.showModal = false;
+      this.selectedOrdo = null;
     },
 
     getPharmacies() {
       axios.get('http://localhost:5001/getPharmacies')
         .then(response => {
-          console.log(response.data)
+          //console.log(response.data)
           const pharmas = response.data;
           // Now fetch address for each pharmacy
           for (let pharma of pharmas) {
@@ -157,7 +160,7 @@ export default {
                 id_adress: pharma.id_adress
               }
             }).then(response => {
-              console.log(response.data)
+              //console.log(response.data)
               pharma.address = response.data[0];
             }).catch(err => {
               console.log(err)
@@ -176,9 +179,9 @@ export default {
         role: "id_patient",
         id: this.store.getId(),
       }).then(response => {
-        console.log(response.data)
+        //console.log(response.data)
         this.ordos = response.data
-        console.log(this.ordos)
+        //console.log(this.ordos)
       }).catch(err => {
         console.log(err)
       })
@@ -288,16 +291,19 @@ export default {
     },
 
     //Send ordonnance
+    sendToPharma(id_selectedpharma) {
+      const dataSend ={
+        id_pharma: id_selectedpharma,
+        id_ordo: this.selectedOrdo.id_ordo
+      }
 
-
-    // sendToPharma(ordo) {
-    //   axios.post("http://localhost:5001/sendOrdonnanceToPharma", ordo)
-    //     .then(response => {
-    //       console.log(response.data)
-    //     }).catch(err => {
-    //       console.log(err)
-    //     })
-    // },
+      axios.post("http://localhost:5001/sendOrdonnanceToPharma", dataSend)
+        .then(response => {
+          //console.log(response.data)
+        }).catch(err => {
+          console.log(err)
+        })
+    },
 
     async loadGoogleMaps() {
       const loader = new Loader({
