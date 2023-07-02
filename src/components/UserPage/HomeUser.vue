@@ -58,20 +58,28 @@
     </div>
 
     <!-- pop up window to send to pharmacie -->
-    <!-- <div class="modal" v-if="showModal">
+    <div class="modal" v-if="showModal">
       <div class="modal-content">
         <span class="close" @click="closeModal()">&times;</span>
-        <p>Hello?</p>
+        <h2>Envoyez votre ordonnance à la pharmacie</h2>
+        <br>
         <div v-for="pharma in pharmacies" :key="pharma.id">
-          <h3>{{ pharma.name_pharma }}</h3>
-          <p>{{ pharma.email }}</p>
-          <p>{{ pharma.num_phone }}</p>
-          <p>{{ pharma.address.street_name }} {{ pharma.address.post_code }}</p>
-          
+          <h3>Nom: {{ pharma.name_pharma }}</h3>
+          <p>E-mail: {{ pharma.email }}</p>
+          <p>Numéro tele: {{ pharma.num_phone }}</p>
+          <p v-if="pharma.address">Address: </p>
+          <p v-if="pharma.address">
+            {{ pharma.address.nb_street }}
+            {{ pharma.address.street_name }}
+          </p>
+          <p v-if="pharma.address">{{ pharma.address.post_code }}</p>
+          <p v-if="pharma.address">{{ pharma.address.city }}</p>
+          <br>
+
         </div>
 
       </div>
-    </div> -->
+    </div>
 
   </div>
 </template>
@@ -115,20 +123,9 @@ export default {
     });
   },
   created() {
-    this.getOrdonnances()
+    this.getOrdonnances(),
+      this.getPharmacies()
   },
-
-  // async created() {
-  //   const response = await axios.get('http://localhost:5001/getPharmacies');
-  //   const pharmas = response.data;
-
-  //   // Now fetch address for each pharmacy
-  //   for (let pharma of pharmas) {
-  //     const res = await axios.get(`http://localhost:5001/getAddress/${pharma.id_adress}`);
-  //     pharma.address = res.data; // attach address info to each pharmacy
-  //   }
-  //   this.pharmacies = pharmas;
-  // },
 
   methods: {
     openModal() {
@@ -136,6 +133,32 @@ export default {
     },
     closeModal() {
       this.showModal = false;
+    },
+
+    getPharmacies() {
+      axios.get('http://localhost:5001/getPharmacies')
+        .then(response => {
+          console.log(response.data)
+          const pharmas = response.data;
+          // Now fetch address for each pharmacy
+          for (let pharma of pharmas) {
+            axios.get(`http://localhost:5001/getAddress`, {
+              params: {
+                id_adress: pharma.id_adress
+              }
+            }).then(response => {
+              console.log(response.data)
+              pharma.address = response.data[0];
+            }).catch(err => {
+              console.log(err)
+            })
+          }
+
+          this.pharmacies = pharmas;
+
+        }).catch(err => {
+          console.log(err)
+        })
     },
 
     getOrdonnances() {
