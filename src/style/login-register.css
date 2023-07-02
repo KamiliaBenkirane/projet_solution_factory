@@ -41,6 +41,8 @@
 }
 
 
+
+
 .register{
     color : white;
     display : flex;
@@ -100,6 +102,10 @@ label{
 
 .register a{
     text-decoration: none;
+}
+.register a:hover{
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .register p:hover{

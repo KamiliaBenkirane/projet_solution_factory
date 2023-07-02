@@ -5,7 +5,7 @@
     <div class="container">
       <div class="parent-grid">
         <div class="child-grid box1">
-          <router-link to="/prescription">
+          <router-link to="/prescription/:numSecu">
           <div class="ajouter_ordo">
 
             <h3><i class='bx bxs-plus-circle'></i> Créer une ordonnance</h3>
@@ -50,15 +50,19 @@
         </div>
         <div class="child-grid box4">
           <h3> Etudiants en suivi </h3>
+          <input type="search" id="recherche_ordo" name="recherche_ordo" placeholder="Recherchez un étudiant..." v-model="searchQuery">
           <div v-if="etudiants.length!==0" class="liste_etudiant">
-            <div v-for="etudiant in etudiants" key="num_secu" class="etudiant-item">
+            <div v-for="etudiant in filteredEtudiants" key="num_secu" class="etudiant-item">
               <img src="../../assets/icones/avatar.png" alt="icone_pdf">
               <div class="infos_etudiant">
                 <p><i class='bx bxs-user'></i>{{etudiant.first_name}} {{etudiant.last_name}}<br><i class='bx bxs-envelope'></i> {{etudiant.email}}<br><i class='bx bx-health'></i> Nº sécu :  {{etudiant.id_patient}}</p>
 
               </div>
+              <i title="Créer une ordonnance" id="add_ordo" @click="ouvrirPrescription(etudiant.id_patient)" class='bx bxs-file-plus'></i>
+
+
+
             </div>
-            <p class="voir-plus">Voir tous les étudiants en suivi &#8594;</p>
 
           </div>
           <div v-else class="aucun-etudiant">
@@ -96,13 +100,31 @@ export default {
     return{
 
       etudiants : [],
-      ordos : []
+      ordos : [],
+      searchQuery : '',
     }
   },
   created(){
     this.getOrdonnances()
     this.getEtudiantsSuivi()
   },
+  computed: {
+    filteredEtudiants() {
+      const searchQuery = this.searchQuery.toLowerCase().trim();
+      if (searchQuery === '') {
+        return this.etudiants;
+      } else {
+        return this.etudiants.filter(etudiant => {
+          const idPatient = etudiant.id_patient.toString();
+          const firstName = etudiant.first_name.toLowerCase();
+          const lastName = etudiant.last_name.toLowerCase();
+          return idPatient.includes(searchQuery) ||
+              firstName.includes(searchQuery) ||
+              lastName.includes(searchQuery);
+        }).reverse();
+      }
+    }
+},
   methods : {
     async sendEmail(ordo) {
         // préparer les informations de l'email
@@ -223,6 +245,9 @@ export default {
 
 
       doc.save(`Ordonnance-${ordo.first_name}-${ordo.last_name}-${this.formatDate(ordo.date)}`);
+    },
+    ouvrirPrescription(numSecu) {
+      this.$router.push({ name: 'prescription', params: { numSecu: numSecu } });
     },
 
     suppressDoublons(list){
@@ -374,18 +399,20 @@ export default {
   background-color: #8cd5eb;
   position: relative;
   z-index: 0;
+  transition : all 0.2s ease;
+
 }
 
-.ordo-item:hover {
-  cursor: pointer;
-}
 
 .ordo-item:hover > .buttons > p{
   display : block;
+  cursor : pointer;
+  transition : 0.2s ease;
 
 }
 
 .ordo-item:hover::after {
+  transition : 0.2s ease;
   content: "";
   position: absolute;
   top: 0;
@@ -413,7 +440,7 @@ export default {
 }
 
 .etudiant-item img{
-  height : 50px;
+  height : 40px;
   width : auto;
 }
 
@@ -421,8 +448,32 @@ export default {
   display: flex;
   flex-direction: column;
   gap : 10px;
-  height : 90%;
+  height : 80%;
   position: relative;
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #162c4a;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #091220;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background:
+      #000000
+;
 }
 
 .etudiant-item{
@@ -432,7 +483,7 @@ export default {
   gap : 20px;
   border-radius: 10px;
   padding : 0 15px;
-  font-size : 15px;
+  font-size : 13px;
 }
 
 
@@ -463,7 +514,7 @@ export default {
   align-self: flex-end;
   position: absolute; /* Add this */
   bottom: 0; /* Add this */
-  right: -10;
+  right: 20px;
   color : #404040;
 }
 
@@ -551,6 +602,40 @@ a{
 
 .box4 p{
   line-height: 25px;
+}
+
+input{
+  padding : 8px;
+  width : 100%;
+  border-radius : 10px;
+  border : white 1px solid;
+  background-color: #1c3860;
+  margin-bottom : 10px;
+  color : white;
+}
+
+::placeholder{
+  color : white;
+}
+
+input:focus{
+  outline: none;
+  border : white 2px solid;
+  background-color: #193255;
+}
+
+#add_ordo{
+  margin-left: auto;
+  font-size : 25px;
+  transition : 0.2s ease;
+  padding : 8px;
+  border-radius : 4px;
+}
+
+#add_ordo:hover{
+  background-color: #F2F2F2;
+  color : #1d1b31;
+  cursor: pointer;
 }
 
 
