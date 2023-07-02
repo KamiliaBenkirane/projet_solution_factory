@@ -514,7 +514,7 @@ export default {
   align-self: flex-end;
   position: absolute; /* Add this */
   bottom: 0; /* Add this */
-  right: -10;
+  right: -10px;
   color : #404040;
 }
 

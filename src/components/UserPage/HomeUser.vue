@@ -61,22 +61,32 @@
     <div class="modal" v-if="showModal">
       <div class="modal-content">
         <span class="close" @click="closeModal()">&times;</span>
-        <h2>Envoyez votre ordonnance à la pharmacie</h2>
+        <h2>Envoyez l'ordonnance à la pharmacie de votre choix !</h2>
         <br>
-        <div v-for="pharma in pharmacies" :key="pharma.id">
-          <h3>Nom: {{ pharma.name_pharma }}</h3>
-          <p>E-mail: {{ pharma.email }}</p>
-          <p>Numéro tele: {{ pharma.num_phone }}</p>
-          <p v-if="pharma.address">Address: </p>
-          <p v-if="pharma.address">
-            {{ pharma.address.nb_street }}
-            {{ pharma.address.street_name }}
-          </p>
-          <p v-if="pharma.address">{{ pharma.address.post_code }}</p>
-          <p v-if="pharma.address">{{ pharma.address.city }}</p>
-          <br>
+        <div class="liste_pharma">
+          <div v-for="pharma in pharmacies" :key="pharma.id" class="pharma_item">
+          <div class="titre_pharma">
+            <img class="icone_pharma" src="../../assets/icones/pharmacie_icone.png" alt="icone_pharma">
 
-        </div>
+            <h3>Nom: {{ pharma.name_pharma }}</h3>
+          </div>
+            <div class="bloc_info_pharma">
+              <div><p><i class='bx bxs-envelope'></i> E-mail: {{ pharma.email }}</p>
+                <p><i class='bx bxs-phone'></i> Numéro : {{ pharma.num_phone }}</p>
+
+                <p v-if="pharma.address">
+                  <i class='bx bxs-map'></i> Address: {{ pharma.address.nb_street }} {{ pharma.address.street_name }}, {{ pharma.address.post_code }}{{ pharma.address.city }}
+                </p></div>
+              <div>
+                <p class="bouton_acces" @click="">Autoriser l'accès à l'ordonnance <i class='bx bxs-lock-open'></i></p>
+              </div>
+
+            </div>
+
+
+
+        </div></div>
+
 
       </div>
     </div>
@@ -370,6 +380,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
 }
 
 .logo_ordotech {
@@ -600,25 +611,92 @@ a {
 }
 
 .modal {
-  display: flex;
+  z-index: 2;
   position: fixed;
-  z-index: 1;
-  padding-top: 100px;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.4);
+  width: 50%;
+  height: 70%;
+  border-radius: 20px;
+  border: 1px solid #888;
+  background-color: #fefefe;
 }
 
 .modal-content {
   background-color: #fefefe;
   margin: auto;
   padding: 20px;
-  border: 1px solid #888;
   width: 80%;
+  height :80%;
+}
+
+.liste_pharma{
+  overflow-y : scroll;
+  height : 90%;
+  width : 100%;
+  display : flex;
+  flex-direction : column;
+  gap : 10px;
+}
+
+.icone_pharma{
+  height : 40px;
+  width : auto;
+}
+
+.pharma_item{
+  background-color: #E7E7E7;
+  padding : 20px;
+  border-radius : 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+
+}
+
+.titre_pharma{
+  display : flex;
+  gap : 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.bloc_info_pharma{
+  width : 100%;
+  display : flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bouton_acces{
+  padding : 20px 10px;
+  background-color: #86C093;
+  font-size : 14px;
+  color : white;
+  border-radius : 7px;
+}
+.bouton_acces:hover{
+  cursor: pointer;
+  background-color: #77AB83;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background:  #E1E1E1;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #9f9f9f;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #888
+;
 }
 
 .close {
