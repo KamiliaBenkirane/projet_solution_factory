@@ -52,15 +52,16 @@
 
       <div class="signup_form register">
 
-        <h1 class="titre_form">Ordonnance générée : </h1>
+        <h1 class="titre_form">Ordonnance générée ! </h1>
         <div id="prescription">
           <p>
             <b><u>Ordonnance pour :</u></b> {{ prenomEtudiant }} {{ nomEtudiant }}<br>
-            <b><u>Numéro Sécurité Social :</u></b> {{ numSecu }}<br>
-            <b><u>Numéro téléphone :</u></b> {{ numEtudiant }}<br>
+            <b><u>Nº Sécurité Social :</u></b> {{ numSecu }}<br>
+            <b><u>Tel :</u></b> {{ numEtudiant }}<br>
+            <b><u>Mail :</u></b> {{ mailEtudiant }}<br>
           </p>
         </div>
-        <button class="signupButton" @click="generatePDF(today); postOrdonnance()">Générer PDF</button>
+        <button class="signupButton" @click="generatePDF(today); postOrdonnance()">Générer PDF <i class='bx bxs-file-pdf'></i></button>
       </div>
     </div>
   </div>
@@ -106,7 +107,8 @@ export default {
       idEtudiant : null,
       drugs : [],
       today : new Date(),
-      infoMedicaments : []
+      infoMedicaments : [],
+      mailEtudiant : ''
     }
   },
   created() {
@@ -185,6 +187,7 @@ export default {
           this.nomEtudiant = response.data[0].last_name
           this.numEtudiant = response.data[0].num_phone
           this.idEtudiant = response.data[0].id_patient
+          this.mailEtudiant = response.data[0].email
 
 
 
@@ -354,7 +357,7 @@ export default {
   margin: auto;
 }
 p {
-  line-height: 20px;
+  line-height: 25px;
 }
 
 p:hover {
@@ -371,6 +374,7 @@ select {
 
 .signupButton {
   width: 100%;
+  font-size : 20px;
 }
 
 #addMedicament {

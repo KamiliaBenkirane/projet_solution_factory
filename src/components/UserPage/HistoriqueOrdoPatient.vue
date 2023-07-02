@@ -19,8 +19,10 @@
           </div>
           <div class="buttons">
             <p @click="generatePDF(ordo)" title="Télécharger l'ordonnance"><i class='bx bxs-download'></i></p>
-            <p title="Envoyer comme e-mail à l'école"><i class='bx bx-mail-send'></i></p>
+
             <p @click="openModal(ordo)" title="Donner l'accès à la pharmacie"><i class='bx bx-send' ></i></p>
+
+
           </div>
 
         </div>
@@ -128,6 +130,7 @@ export default {
             }).then(response => {
               //console.log(response.data)
               pharma.address = response.data[0];
+
             }).catch(err => {
               console.log(err)
             })
@@ -149,6 +152,8 @@ export default {
       axios.post("http://localhost:5001/sendOrdonnanceToPharma", dataSend)
         .then(response => {
           //console.log(response.data)
+          alert("Votre ordonnance a bien été envoyé !")
+          this.closeModal()
         }).catch(err => {
           console.log(err)
         })

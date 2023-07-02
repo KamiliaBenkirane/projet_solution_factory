@@ -55,7 +55,7 @@
             <div v-for="etudiant in filteredEtudiants" key="num_secu" class="etudiant-item">
               <img src="../../assets/icones/avatar.png" alt="icone_pdf">
               <div class="infos_etudiant">
-                <p><i class='bx bxs-user'></i>{{etudiant.first_name}} {{etudiant.last_name}}<br><i class='bx bxs-envelope'></i> {{etudiant.email}}<br><i class='bx bx-health'></i> Nº sécu :  {{etudiant.id_patient}}</p>
+                <p><i class='bx bxs-user'></i>  {{etudiant.first_name}} {{etudiant.last_name}}<br><i class='bx bxs-envelope'></i> {{etudiant.email}}<br><i class='bx bx-health'></i> Nº sécu :  {{etudiant.id_patient}}</p>
 
               </div>
               <i title="Créer une ordonnance" id="add_ordo" @click="ouvrirPrescription(etudiant.id_patient)" class='bx bxs-file-plus'></i>

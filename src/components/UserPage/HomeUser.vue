@@ -304,6 +304,8 @@ export default {
       axios.post("http://localhost:5001/sendOrdonnanceToPharma", dataSend)
         .then(response => {
           //console.log(response.data)
+          alert("Votre ordonnance a bien été envoyé !")
+          this.closeModal()
         }).catch(err => {
           console.log(err)
         })
@@ -693,7 +695,9 @@ a {
 
 /* Track */
 ::-webkit-scrollbar-track {
+
   background: #E1E1E1;
+
   border-radius: 5px;
 }
 
