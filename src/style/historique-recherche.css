@@ -20,7 +20,7 @@
 
 .container {
     width : 50vw;
-    height : 580px;
+    height : 75%;
     margin-left : 78px;
     margin-top : 100px;
     padding : 30px;
@@ -45,6 +45,29 @@ input:focus{
     outline: none;
     border : grey 2px solid;
     background-color: #f5f9fc;
+}
+
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background:  #f1f1f1;
+    border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #9f9f9f;
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #888
+;
 }
 
 .container button{

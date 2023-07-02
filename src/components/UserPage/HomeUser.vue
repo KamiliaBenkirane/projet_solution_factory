@@ -27,8 +27,8 @@
               <p>Dr. {{ ordo.medecin_last_name }}<br>{{ formatDate(ordo.date) }}</p>
               <img src="../../assets/icones/pdf.png">
               <div class="icones_pdf">
-                <img src="../../assets/icones/download-regular-48.png" @click="generatePDF(ordo)">
-                <img src="../../assets/icones/send-solid-48.png" @click="openModal()">
+                <img src="../../assets/icones/download-regular-48.png" title="Télécharger l'ordonnance" @click="generatePDF(ordo)">
+                <img src="../../assets/icones/send-solid-48.png" title="Donner l'accès à la pharmacie" @click="openModal()">
               </div>
 
 

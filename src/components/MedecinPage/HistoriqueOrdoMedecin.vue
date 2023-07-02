@@ -3,12 +3,12 @@
   <div class="page">
     <img class="logo_ordotech" src="../../assets/logo/OrdoTech_logo.png" alt="logo_ordotech">
     <div class="container">
-      <div><input type="search" id="recherche_ordo" name="recherche_ordo" placeholder="Recherchez avec un N° Sécurité Sociale">
+      <div><input type="search" id="recherche_ordo" name="recherche_ordo" placeholder="Recherchez avec un N° Sécurité Sociale" v-model="searchQuery">
         <button><img class="icone_chercher" src="../../assets/icones/chercher.png" alt="logo_chercher"></button>
       </div>
       <div class="histo-ordo">
 
-        <div v-for="ordo in suppressDoublons(ordos).reverse()" key="id_ordo" class="ordo-item">
+        <div v-for="ordo in filteredOrdos" key="id_ordo" class="ordo-item">
           <img class="icone_ordo" src="../../assets/icones/ordonnance2.png" alt="logo_ordo">
           <div>
             <p><span><i class='bx bxs-user'></i> Etudiant(e) : {{ordo.first_name}}  {{ordo.last_name}}<br></span><span><i class='bx bx-health'></i> N° Sécurité Sociale : {{ordo.id_patient}}<br></span> <span><i class='bx bxs-calendar-alt'></i> Faite le : {{formatDateWord(ordo.date)}}</span></p>
@@ -45,10 +45,23 @@ export default {
   data(){
     return{
       ordos : [],
+      searchQuery : '',
     }
   },
   created(){
     this.getOrdonnances()
+  },
+  computed: {
+    filteredOrdos() {
+      const searchQuery = this.searchQuery.toLowerCase().trim();
+      if (searchQuery === '') {
+        return this.suppressDoublons(this.ordos).reverse();
+      } else {
+        return this.suppressDoublons(this.ordos).filter(ordo => {
+          return ordo.id_patient.toString().includes(searchQuery);
+        }).reverse();
+      }
+    }
   },
   methods : {
     getOrdonnances(){
