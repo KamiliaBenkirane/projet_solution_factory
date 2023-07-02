@@ -27,8 +27,10 @@
               <p>Dr. {{ ordo.medecin_last_name }}<br>{{ formatDate(ordo.date) }}</p>
               <img src="../../assets/icones/pdf.png">
               <div class="icones_pdf">
-                <img src="../../assets/icones/download-regular-48.png" title="Télécharger l'ordonnance" @click="generatePDF(ordo)">
-                <img src="../../assets/icones/send-solid-48.png" title="Donner l'accès à la pharmacie" @click="openModal(ordo)">
+                <img src="../../assets/icones/download-regular-48.png" title="Télécharger l'ordonnance"
+                  @click="generatePDF(ordo)">
+                <img src="../../assets/icones/send-solid-48.png" title="Donner l'accès à la pharmacie"
+                  @click="openModal(ordo)">
               </div>
 
 
@@ -49,7 +51,10 @@
         <div class="pharmacie_proximite">
           <h3>Les pharmacies à proximité</h3>
           <div class="map_pharmacie" ref="mapRef">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2626.847075833089!2d2.3559762759380263!3d48.82297917132739!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e671861d3f69dd%3A0xb0a7c98393ccbac0!2sPharmacie%20Italie%20Sud!5e0!3m2!1sfr!2sfr!4v1688309819291!5m2!1sfr!2sfr" width="100%" height="100%" style="border:0; border-radius : 5px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2626.847075833089!2d2.3559762759380263!3d48.82297917132739!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e671861d3f69dd%3A0xb0a7c98393ccbac0!2sPharmacie%20Italie%20Sud!5e0!3m2!1sfr!2sfr!4v1688309819291!5m2!1sfr!2sfr"
+              width="100%" height="100%" style="border:0; border-radius : 5px;" allowfullscreen="" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
 
         </div>
@@ -65,29 +70,28 @@
         <br>
         <div class="liste_pharma">
           <div v-for="pharma in pharmacies" :key="pharma.id" class="pharma_item">
-          <div class="titre_pharma">
-            <img class="icone_pharma" src="../../assets/icones/pharmacie_icone.png" alt="icone_pharma">
+            <div class="titre_pharma">
+              <img class="icone_pharma" src="../../assets/icones/pharmacie_icone.png" alt="icone_pharma">
 
-            <h3>Nom: {{ pharma.name_pharma }}</h3>
-          </div>
+              <h3>Nom: {{ pharma.name_pharma }}</h3>
+            </div>
             <div class="bloc_info_pharma">
-              <div><p><i class='bx bxs-envelope'></i> E-mail: {{ pharma.email }}</p>
+              <div>
+                <p><i class='bx bxs-envelope'></i> E-mail: {{ pharma.email }}</p>
                 <p><i class='bx bxs-phone'></i> Numéro : {{ pharma.num_phone }}</p>
 
                 <p v-if="pharma.address">
-                  <i class='bx bxs-map'></i> Address: {{ pharma.address.nb_street }} {{ pharma.address.street_name }}, {{ pharma.address.post_code }}{{ pharma.address.city }}
-                </p></div>
-              <div>
-                <p class="bouton_acces" @click="sendToPharma(pharma.id_pharma)">Autoriser l'accès à l'ordonnance <i class='bx bxs-lock-open'></i></p>
+                  <i class='bx bxs-map'></i> Address: {{ pharma.address.nb_street }} {{ pharma.address.street_name }}, {{
+                    pharma.address.post_code }}{{ pharma.address.city }}
+                </p>
               </div>
-
+              <div>
+                <p class="bouton_acces" @click="sendToPharma(pharma.id_pharma)">Autoriser l'accès à l'ordonnance <i
+                    class='bx bxs-lock-open'></i></p>
+              </div>
             </div>
-
-
-
-        </div></div>
-
-
+          </div>
+        </div>
       </div>
     </div>
 
@@ -135,7 +139,7 @@ export default {
   },
   created() {
     this.getOrdonnances(),
-      this.getPharmacies()
+    this.getPharmacies()
   },
 
   methods: {
@@ -292,7 +296,7 @@ export default {
 
     //Send ordonnance
     sendToPharma(id_selectedpharma) {
-      const dataSend ={
+      const dataSend = {
         id_pharma: id_selectedpharma,
         id_ordo: this.selectedOrdo.id_ordo
       }
@@ -630,54 +634,55 @@ a {
   margin: auto;
   padding: 20px;
   width: 80%;
-  height :80%;
+  height: 80%;
 }
 
-.liste_pharma{
-  overflow-y : scroll;
-  height : 90%;
-  width : 100%;
-  display : flex;
-  flex-direction : column;
-  gap : 10px;
+.liste_pharma {
+  overflow-y: scroll;
+  height: 90%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.icone_pharma{
-  height : 40px;
-  width : auto;
+.icone_pharma {
+  height: 40px;
+  width: auto;
 }
 
-.pharma_item{
+.pharma_item {
   background-color: #E7E7E7;
-  padding : 20px;
-  border-radius : 10px;
+  padding: 20px;
+  border-radius: 10px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 
 }
 
-.titre_pharma{
-  display : flex;
-  gap : 10px;
+.titre_pharma {
+  display: flex;
+  gap: 10px;
   justify-content: center;
   align-items: center;
 }
 
 
-.bloc_info_pharma{
-  width : 100%;
-  display : flex;
+.bloc_info_pharma {
+  width: 100%;
+  display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.bouton_acces{
-  padding : 20px 10px;
+.bouton_acces {
+  padding: 20px 10px;
   background-color: #86C093;
-  font-size : 14px;
-  color : white;
-  border-radius : 7px;
+  font-size: 14px;
+  color: white;
+  border-radius: 7px;
 }
-.bouton_acces:hover{
+
+.bouton_acces:hover {
   cursor: pointer;
   background-color: #77AB83;
 }
@@ -688,7 +693,7 @@ a {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background:  #E1E1E1;
+  background: #E1E1E1;
   border-radius: 5px;
 }
 
@@ -700,8 +705,7 @@ a {
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #888
-;
+  background: #888;
 }
 
 .close {
@@ -723,5 +727,4 @@ a {
   .container {
     width: 1035px;
   }
-}
-</style>
+}</style>

@@ -120,6 +120,61 @@ input:focus{
     font-size: 14px;
 }
 
+.modal {
+    z-index: 2;
+    position: fixed;
+    width: 50%;
+    height: 70%;
+    border-radius: 20px;
+    border: 1px solid #888;
+    background-color: #fefefe;
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    width: 80%;
+    height: 80%;
+  }
+  
+  .liste_pharma {
+    overflow-y: scroll;
+    height: 90%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .icone_pharma {
+    height: 40px;
+    width: auto;
+  }
+  
+  .pharma_item {
+    background-color: #E7E7E7;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  
+  }
+  
+  .titre_pharma {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  
+  .bloc_info_pharma {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
 .buttons{
     display: flex;
     gap : 15px;
@@ -147,3 +202,4 @@ input:focus{
         width : 800px;
     }
 }
+
