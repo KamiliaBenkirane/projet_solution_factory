@@ -112,6 +112,9 @@ export default {
   created() {
     this.getDrugs()
   },
+  mounted() {
+    this.numSecu = this.$route.params.numSecu;
+  },
   methods: {
     modifyList(objets) {
       var resultat = [];
