@@ -19,7 +19,10 @@
                 {{ formatDate(ordo.date) }}</span></p>
           </div>
           <div class="buttons">
-            <p @click="generatePDF(ordo)" title="Télécharger l'ordonnance"><i class='bx bxs-download'></i></p>
+            <p class="bouton"  v-if="ordo.isComplete===0" @click="completeOrdo(ordo)"    title="Traiter l'ordonnance"><i class='bx bxs-check-square'></i></p>
+            <p class="traitee" v-else>Cette ordonnance a déjà été traitée</p>
+            <p class="bouton" @click="generatePDF(ordo) " title="Télécharger l'ordonnance"><i class='bx bxs-download'></i></p>
+
 
 
 
@@ -61,13 +64,10 @@ export default {
   computed: {
     filteredOrdos() {
       const searchQuery = this.searchQuery.toLowerCase().trim();
-      if (searchQuery === '') {
-        return this.suppressDoublons(this.ordos).reverse();
-      } else {
         return this.suppressDoublons(this.ordos).filter(ordo => {
           return ordo.id_patient.toString().includes(searchQuery);
         }).reverse();
-      }
+
     }
   },
   methods : {
@@ -77,6 +77,17 @@ export default {
       }).then(response => {
         console.log(response.data)
         this.ordos = response.data
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    completeOrdo(ordo){
+      console.log(ordo.id_ordo_pharma)
+      axios.post("http://localhost:5001/completeOrdonnance", {
+        id_ordo_pharma: ordo.id_ordo_pharma,
+      }).then(response => {
+        alert("L'ordonnance a été traitée !")
+        this.$router.go()
       }).catch(err => {
         console.log(err)
       })
@@ -152,6 +163,7 @@ export default {
       } else {
         list.forEach((obj) => {
           const {
+            id_ordo_pharma,
             id_pharma,
             isComplete,
             id_ordo,
@@ -168,9 +180,10 @@ export default {
             city,
             post_code
           } = obj;
-          const key = `${id_pharma}-${isComplete}-${id_ordo}-${id_patient}-${first_name}-${last_name}-${date}-${num_phone}-${medecin_last_name}-${medecin_num_phone}-${medecin_first_name}-${city}-${nb_street}-${street_name}-${post_code}`;
+          const key = `${id_pharma}-${id_ordo_pharma}-${isComplete}-${id_ordo}-${id_patient}-${first_name}-${last_name}-${date}-${num_phone}-${medecin_last_name}-${medecin_num_phone}-${medecin_first_name}-${city}-${nb_street}-${street_name}-${post_code}`;
 
           result[key] = {
+            id_ordo_pharma,
             id_pharma,
             isComplete,
             id_ordo,
