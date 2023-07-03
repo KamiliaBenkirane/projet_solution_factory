@@ -18,9 +18,9 @@
                 {{ formatDateWord(ordo.date) }}</span></p>
           </div>
           <div class="buttons">
-            <p @click="generatePDF(ordo)" title="Télécharger l'ordonnance"><i class='bx bxs-download'></i></p>
+            <p class="bouton"  @click="generatePDF(ordo)" title="Télécharger l'ordonnance"><i class='bx bxs-download'></i></p>
 
-            <p @click="openModal(ordo)" title="Donner l'accès à la pharmacie"><i class='bx bx-send' ></i></p>
+            <p class="bouton" @click="openModal(ordo)" title="Donner l'accès à la pharmacie"><i class='bx bx-send' ></i></p>
 
 
           </div>

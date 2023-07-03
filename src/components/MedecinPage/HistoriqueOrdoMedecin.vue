@@ -14,8 +14,8 @@
             <p><span><i class='bx bxs-user'></i> Etudiant(e) : {{ordo.first_name}}  {{ordo.last_name}}<br></span><span><i class='bx bx-health'></i> N° Sécurité Sociale : {{ordo.id_patient}}<br></span> <span><i class='bx bxs-calendar-alt'></i> Faite le : {{formatDateWord(ordo.date)}}</span></p>
           </div>
           <div class="buttons">
-            <p @click="generatePDF(ordo)" title="Télécharger l'ordonnance"><i class='bx bxs-download'></i></p>
-            <p title="Envoyer comme e-mail à l'école"><i class='bx bx-mail-send'></i></p>
+            <p class="bouton" @click="generatePDF(ordo)" title="Télécharger l'ordonnance"><i class='bx bxs-download'></i></p>
+            <p class="bouton" title="Envoyer comme e-mail à l'école"><i class='bx bx-mail-send'></i></p>
           </div>
 
 

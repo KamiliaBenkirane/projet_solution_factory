@@ -127,9 +127,10 @@ input:focus{
     position: absolute;
     bottom : 0;
     right : 30px;
+    align-items: flex-end;
 }
 
-.buttons p{
+.buttons .bouton{
     font-size : 24px;
     background-color:#303053;
     color : white;
@@ -137,10 +138,18 @@ input:focus{
     border-radius: 5px;
 }
 
-.buttons p:hover{
+
+
+.buttons .bouton:hover{
     cursor: pointer;
     background-color: #595975;
 
+}
+
+.traitee{
+    color : grey;
+    bottom : 0;
+    margin-bottom : 25px;
 }
 
 .modal {
@@ -212,13 +221,13 @@ input:focus{
 }
 
 ::-webkit-scrollbar {
-    width: 12px;
+    width: 9px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
 
-    background: #E1E1E1;
+    background:#FAFAFA;
 
     border-radius: 5px;
 }

@@ -696,7 +696,7 @@ a {
 /* Track */
 ::-webkit-scrollbar-track {
 
-  background: #E1E1E1;
+  background: #FAFAFA;
 
   border-radius: 5px;
 }

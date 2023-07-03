@@ -9,14 +9,7 @@
       </div>
       <i class="bx bx-menu" id="btn" @click="moveSidebar"/>
       <ul class="nav_list">
-        <li>
-          <router-link to="/homePharmacie">
 
-            <i class="bx bx-grid-alt"></i>
-            <span class="links_name">Accueil</span>
-          </router-link>
-          <span class="tooltip">Accueil</span>
-        </li>
 
         <li>
           <a href="/" @click="logout">
