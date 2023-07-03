@@ -92,6 +92,7 @@ export default {
         else{
           console.log(response.data.results)
           this.store.setNomPharma(response.data.results[0].name_pharma)
+          this.store.setIdPharma(response.data.results[0].id_pharma)
           this.store.setMailPharma(response.data.results[0].email)
           this.store.setNumPharma(response.data.results[0].num_phone)
 

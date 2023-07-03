@@ -21,7 +21,8 @@ export const useSessionStore = defineStore('session', {
             numero_medecinT : null,
             nom_pharma : '',
             mail_pharma : '',
-            num_pharma : null
+            num_pharma : null,
+            id_pharma : null,
 
         },
     }),
@@ -29,6 +30,9 @@ export const useSessionStore = defineStore('session', {
 
         setId(i){
             this.user.id = i
+        },
+        setIdPharma(i){
+            this.user.id_pharma = i
         },
         setNom(n){
             this.user.nom = n
@@ -96,6 +100,9 @@ export const useSessionStore = defineStore('session', {
         },
         getId(){
             return this.user.id
+        },
+        getIdPharma(){
+            return this.user.id_pharma
         },
         getPrenom(){
             return this.user.prenom
