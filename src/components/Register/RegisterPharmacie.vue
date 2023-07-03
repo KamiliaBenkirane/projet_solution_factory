@@ -104,7 +104,7 @@ export default {
         })
         .catch(error => {
           console.error('Error:', error);
-          alert("Une erreur est survenue lors de l'inscription.")
+          alert("Le mail est déjà enregistré!")
         });
     }
   }
