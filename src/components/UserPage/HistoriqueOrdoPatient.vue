@@ -40,7 +40,7 @@
             <div class="titre_pharma">
               <img class="icone_pharma" src="../../assets/icones/pharmacie_icone.png" alt="icone_pharma">
 
-              <h3>Nom: {{ pharma.name_pharma }}</h3>
+              <h3>{{ pharma.name_pharma }}</h3>
             </div>
             <div class="bloc_info_pharma">
               <div>
@@ -155,6 +155,7 @@ export default {
           alert("Votre ordonnance a bien été envoyé !")
           this.closeModal()
         }).catch(err => {
+          alert("La pharmacie possède déjà cette ordonnance.")
           console.log(err)
         })
     },
