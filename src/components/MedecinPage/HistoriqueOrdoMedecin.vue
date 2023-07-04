@@ -14,8 +14,9 @@
             <p><span><i class='bx bxs-user'></i> Etudiant(e) : {{ordo.first_name}}  {{ordo.last_name}}<br></span><span><i class='bx bx-health'></i> N° Sécurité Sociale : {{ordo.id_patient}}<br></span> <span><i class='bx bxs-calendar-alt'></i> Faite le : {{formatDateWord(ordo.date)}}</span></p>
           </div>
           <div class="buttons">
-            <p class="bouton" @click="generatePDF(ordo)" title="Télécharger l'ordonnance"><i class='bx bxs-download'></i></p>
-            <p class="bouton" title="Envoyer comme e-mail à l'école"><i class='bx bx-mail-send'></i></p>
+            <p @click="generatePDF(ordo)" title="Télécharger l'ordonnance"><i class='bx bxs-download'></i></p>
+            <p @click="sendEmail(ordo)" title="Envoyer comme e-mail à l'école"><i class='bx bx-mail-send'></i></p>
+
           </div>
         </div>
       </div>
@@ -61,6 +62,30 @@ export default {
     }
   },
   methods : {
+    async sendEmail(ordo) {
+   
+   // préparer les informations de l'email
+   const mailData = { 
+       to : 'amineelfe@gmail.com',
+       subject: `Justificatif d'absence pour ${ordo.first_name} ${ordo.last_name}`,
+       text: `Médicament prescrit : ${medicament}\nA prendre ${nbFoisParJour} fois par jour pendant pendant ${nbJour} jours`,
+       filename : `Ordonnance-${ordo.first_name}-${ordo.last_name}-${this.formatDate(ordo.date)}.pdf`
+   };
+   
+   try {
+       // envoyer une requête POST à l'API de votre serveur pour envoyer l'email
+       const response = await axios.post('http://localhost:5001/sendemails', mailData);
+       // afficher le message de succès ou d'échec selon la réponse du serveur
+       if (response.data.status === 'success') {
+           alert('Email sent successfully');
+       } else {
+           alert('Failed to send email: ' + response.data.message);
+       }
+   } catch (error) {
+       console.error('Failed to send email: ', error);
+   }
+},
+    
     getOrdonnances(){
       axios.post("http://localhost:5001/getOrdonnances", {
         role : "id_medecin",

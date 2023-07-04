@@ -109,11 +109,14 @@ export default {
 },
   methods : {
     async sendEmail(ordo) {
+       
+
         // préparer les informations de l'email
         const mailData = { 
             to : 'amineelfe@gmail.com',
             subject: `Justificatif d'absence pour ${ordo.first_name} ${ordo.last_name}`,
-            text: `Monsieur/Madame ${ordo.first_name} ${ordo.last_name} sera absent(e) le ${this.formatDate(ordo.date)} pour des raisons médicales`
+            text: `Monsieur/Madame ${ordo.first_name} ${ordo.last_name} sera absent(e) le ${this.formatDate(ordo.date)} pour des raisons médicales`,
+            filename : `Ordonnance-${ordo.first_name}-${ordo.last_name}-${this.formatDate(ordo.date)}.pdf`
         };
         
         try {
