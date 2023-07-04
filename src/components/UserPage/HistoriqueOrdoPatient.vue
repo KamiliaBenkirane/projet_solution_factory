@@ -187,16 +187,12 @@ export default {
     },
     generatePDF(ordo) {
       const doc = new jsPDF();
-
-      doc.setFont("Helvetica, Arial, sans-serif"); // Choisissez une police agréable.
-
-      doc.setFontSize(12); // Réduisez la taille de la police pour le contenu.
-
-
-
-
       const imgData = logo;
+      const filteredOrdo = this.ordos.filter((ordonnance) => ordonnance.id_ordo === ordo.id_ordo);
+      var y_medoc = 120
 
+      doc.setFont("Helvetica, Arial, sans-serif");
+      doc.setFontSize(12);
       doc.addImage(imgData, 'PNG', 85, 10, 48, 12);
 
       // Informations médecin
@@ -211,33 +207,17 @@ export default {
 
 
       //Informations ordonnance médicaments
-      var y_medoc = 120
       doc.text(`Prescription : `, 20, 110);
 
-      const filteredOrdo = this.ordos.filter((ordonnance) => ordonnance.id_ordo === ordo.id_ordo);
-
-
       for (let i = 0; i < filteredOrdo.length; i++) {
-
-
-
-
-
         const medicament = filteredOrdo[i].name_drug
         const nbFoisParJour = filteredOrdo[i].nb_fois_par_jour
         const nbJour = filteredOrdo[i].nb_jour
-
-
         doc.text(`Médicament prescrit : ${medicament}\nA prendre ${nbFoisParJour} fois par jour pendant pendant ${nbJour} jours`, 20, y_medoc);
         y_medoc += 20;
-
       }
 
-
-
       doc.text(`Fait le ${this.formatDate(ordo.date)}\n\nSignature :`, 140, 220);
-
-
       doc.save(`Ordonnance-${ordo.first_name}-${ordo.last_name}-${this.formatDate(ordo.date)}`);
     },
     suppressDoublons(list) {
@@ -273,5 +253,4 @@ export default {
   }
 }
 </script>
-
 <style scoped src="../../style/historique-recherche.css"></style>

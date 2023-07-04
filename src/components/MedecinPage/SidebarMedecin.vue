@@ -17,7 +17,6 @@
           </router-link>
           <span class="tooltip">Accueil</span>
         </li>
-
         <li>
           <a href="/" @click="logout()">
             <i class="bx bx-log-out" id="log_out"></i>
@@ -38,7 +37,6 @@
             </div>
           </div>
           <i class="bx bxs-user-account bx-sm icon_user"></i>
-
         </div>
       </div>
     </div>
@@ -58,14 +56,12 @@ export default {
       role : "Médecin",
       nom : this.store.getNom(),
       prenom : this.store.getPrenom(),
-
     }
   },
 
   mounted() {
     let sidebar = document.querySelector(".sidebar");
     let btn = document.querySelector("#btn");
-
     if (sidebar.classList.contains("active") && btn.classList.contains("bx bxs-arrow-from-right")) {
       sidebar.classList.remove("active");
     } else if (!sidebar.classList.contains("active") && btn.classList.contains("bx bx-menu")) {
@@ -78,15 +74,12 @@ export default {
     moveSidebar() {
       let btn = document.querySelector("#btn");
       let sidebar = document.querySelector(".sidebar");
-
       if (sidebar.classList.contains("active")) {
         sidebar.classList.remove("active");
         btn.classList = "bx bx-menu";
-
       } else {
         sidebar.classList.add("active");
         btn.classList = "bx bxs-arrow-from-right";
-
       }
     },
     logout(){
@@ -274,18 +267,12 @@ body {
   pointer-events: auto;
 }
 
-.sidebar .profile_details .name_job{
-  margin-left: 10px;
-}
 .sidebar .profile_details .name_type{
   margin-left: 24px;
 }
 .sidebar .profile_details .name{
   font-size: 15px;
   font-weight: 400;
-}
-.sidebar .profile_details .job{
-  font-size: 12px;
 }
 .sidebar .icon_user{
   position: absolute;
@@ -306,20 +293,6 @@ body {
   background: none;
 }
 
-
-.home_content{
-  position: absolute;
-  height: 100%;
-  width: calc(100% - 78px);
-  left: 78px;
-  transition: all 0.5s ease;
-  margin: 20px;
-}
-
-.sidebar.active ~ .home_content{
-  width: calc(100% - 240px);
-  left: 240px;
-}
 
 .user_image {
   height: 25px;

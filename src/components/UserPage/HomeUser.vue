@@ -13,7 +13,6 @@
               {{ medecinTraitant.numero }}</p>
           </div>
         </div>
-
       </div>
       <div class="bloc_ordo">
         <div class="nouvelles_ordo">
@@ -32,21 +31,14 @@
                 <img src="../../assets/icones/send-solid-48.png" title="Donner l'accès à la pharmacie"
                   @click="openModal(ordo)">
               </div>
-
-
-
             </div>
-
             <p class="historique"><router-link to="/historiquePatient">Voir toutes mes ordonnances &#8594;</router-link>
             </p>
           </div>
           <div v-else class="aucune-ordo">
             <img src="../../assets/icones/aucun-resultat-blanc.png" alt="icone_aucun_res">
             <h4>Aucune ordonnance pour le moment</h4>
-
           </div>
-
-
         </div>
         <div class="pharmacie_proximite">
           <h3>Les pharmacies à proximité</h3>
@@ -56,10 +48,8 @@
               width="100%" height="100%" style="border:0; border-radius : 5px;" allowfullscreen="" loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
-
         </div>
       </div>
-
     </div>
 
     <!-- pop up window to send to pharmacie -->
@@ -79,7 +69,6 @@
               <div>
                 <p><i class='bx bxs-envelope'></i> E-mail: {{ pharma.email }}</p>
                 <p><i class='bx bxs-phone'></i> Numéro : {{ pharma.num_phone }}</p>
-
                 <p v-if="pharma.address">
                   <i class='bx bxs-map'></i> Address: {{ pharma.address.nb_street }} {{ pharma.address.street_name }}, {{
                     pharma.address.post_code }}{{ pharma.address.city }}
@@ -155,24 +144,19 @@ export default {
     getPharmacies() {
       axios.get('http://localhost:5001/getPharmacies')
         .then(response => {
-          //console.log(response.data)
           const pharmas = response.data;
-          // Now fetch address for each pharmacy
           for (let pharma of pharmas) {
             axios.get(`http://localhost:5001/getAddress`, {
               params: {
                 id_adress: pharma.id_adress
               }
             }).then(response => {
-              //console.log(response.data)
               pharma.address = response.data[0];
             }).catch(err => {
               console.log(err)
             })
           }
-
           this.pharmacies = pharmas;
-
         }).catch(err => {
           console.log(err)
         })
@@ -228,56 +212,35 @@ export default {
     },
     generatePDF(ordo) {
       const doc = new jsPDF();
-
-      doc.setFont("Helvetica, Arial, sans-serif"); // Choisissez une police agréable.
-
-      doc.setFontSize(12); // Réduisez la taille de la police pour le contenu.
-
-
-
-
       const imgData = logo;
+      const filteredOrdo = this.ordos.filter((ordonnance) => ordonnance.id_ordo === ordo.id_ordo);
+      var y_medoc = 120
 
+      doc.setFont("Helvetica, Arial, sans-serif");
+      doc.setFontSize(12);
       doc.addImage(imgData, 'PNG', 85, 10, 48, 12);
 
       // Informations médecin
       doc.text(`${ordo.medecin_first_name} ${ordo.medecin_last_name}\nMédecin généraliste`, 20, 50);
       doc.text(`Adresse : ${ordo.nb_street} rue ${ordo.street_name}, ${ordo.city} ${ordo.post_code}  \nTel cabinet : ${ordo.medecin_num_phone}`, 110, 50);
 
-
-
       //Informations étudiant(e)
       doc.text(`${ordo.first_name} ${ordo.last_name}\nNuméro de sécurité social de l'étudiant(e) : ${ordo.id_patient}`, 20, 70);
       doc.text(`Tel étudiant(e) : ${ordo.num_phone}`, 110, 70);
 
-
       //Informations ordonnance médicaments
-      var y_medoc = 120
       doc.text(`Prescription : `, 20, 110);
 
-      const filteredOrdo = this.ordos.filter((ordonnance) => ordonnance.id_ordo === ordo.id_ordo);
-
-
+      //Ajout des médicaments à l'ordonnance
       for (let i = 0; i < filteredOrdo.length; i++) {
-
-
-
-
-
         const medicament = filteredOrdo[i].name_drug
         const nbFoisParJour = filteredOrdo[i].nb_fois_par_jour
         const nbJour = filteredOrdo[i].nb_jour
 
-
         doc.text(`Médicament prescrit : ${medicament}\nA prendre ${nbFoisParJour} fois par jour pendant pendant ${nbJour} jours`, 20, y_medoc);
         y_medoc += 20;
-
       }
-
-
-
       doc.text(`Fait le ${this.formatDate(ordo.date)}\n\nSignature :`, 140, 220);
-
 
       doc.save(`Ordonnance-${ordo.first_name}-${ordo.last_name}-${this.formatDate(ordo.date)}`);
     },
@@ -292,20 +255,17 @@ export default {
       }
     },
 
-    //Send ordonnance
     sendToPharma(id_selectedpharma) {
       const dataSend = {
         id_pharma: id_selectedpharma,
         id_ordo: this.selectedOrdo.id_ordo
       }
-
       axios.post("http://localhost:5001/sendOrdonnanceToPharma", dataSend)
         .then(response => {
-          //console.log(response.data)
           alert("Votre ordonnance a bien été envoyé !")
           this.closeModal()
         }).catch(err => {
-          alert("L'ordonnance est déjà envoyé à la pharmacie!")
+          alert("La pharmacie possède déjà cette ordonnance.")
           console.log(err)
         })
     },

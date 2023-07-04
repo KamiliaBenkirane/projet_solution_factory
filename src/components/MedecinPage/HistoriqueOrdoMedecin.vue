@@ -17,9 +17,6 @@
             <p class="bouton" @click="generatePDF(ordo)" title="Télécharger l'ordonnance"><i class='bx bxs-download'></i></p>
             <p class="bouton" title="Envoyer comme e-mail à l'école"><i class='bx bx-mail-send'></i></p>
           </div>
-
-
-
         </div>
       </div>
     </div>
@@ -90,56 +87,36 @@ export default {
     },
     generatePDF(ordo) {
       const doc = new jsPDF();
-
-      doc.setFont("Helvetica, Arial, sans-serif"); // Choisissez une police agréable.
-
-      doc.setFontSize(12); // Réduisez la taille de la police pour le contenu.
-
-
-
-
       const imgData = logo;
+      var y_medoc = 120
+      const filteredOrdo = this.ordos.filter((ordonnance) => ordonnance.id_ordo === ordo.id_ordo);
 
+      //style pdf
+      doc.setFont("Helvetica, Arial, sans-serif");
+      doc.setFontSize(12);
       doc.addImage(imgData, 'PNG', 85, 10, 48, 12);
 
       // Informations médecin
       doc.text(`${this.store.getPrenom()} ${this.store.getNom()}\nMédecin généraliste`, 20, 50);
       doc.text(`Adresse : ${this.store.getNumRue()} rue ${this.store.getRue()}, ${this.store.getVille()} ${this.store.getCodePostal()}  \nTel cabinet : ${this.store.getNumero()}`, 110, 50);
 
-
-
       //Informations étudiant(e)
       doc.text(`${ordo.first_name} ${ordo.last_name}\nNuméro de sécurité social de l'étudiant(e) : ${ordo.id_patient}`, 20, 70);
       doc.text(`Tel étudiant(e) : ${ordo.num_phone}`, 110, 70);
 
-
       //Informations ordonnance médicaments
-      var y_medoc = 120
       doc.text(`Prescription : `, 20, 110);
 
-      const filteredOrdo = this.ordos.filter((ordonnance) => ordonnance.id_ordo === ordo.id_ordo);
-
-
+      //Infos médicaments
       for (let i = 0; i < filteredOrdo.length; i++) {
-
-
-
-
-
         const medicament = filteredOrdo[i].name_drug
         const nbFoisParJour = filteredOrdo[i].nb_fois_par_jour
         const nbJour = filteredOrdo[i].nb_jour
-
-
         doc.text(`Médicament prescrit : ${medicament}\nA prendre ${nbFoisParJour} fois par jour pendant pendant ${nbJour} jours`, 20, y_medoc);
         y_medoc += 20;
 
       }
-
-
-
       doc.text(`Fait le ${this.formatDate(ordo.date)}\n\nSignature :`, 140, 220);
-
 
       doc.save(`Ordonnance-${ordo.first_name}-${ordo.last_name}-${this.formatDate(ordo.date)}`);
     },
@@ -171,7 +148,4 @@ export default {
 </script>
 
 <style scoped src="../../style/historique-recherche.css">
-
-
-
 </style>

@@ -5,7 +5,6 @@
       <div class="register">
         <router-link to="/"><p class="info_form">Vous possédez déjà un compte ? Cliquez ici !</p></router-link>
         <div class="signup_form">
-
           <h1 class="titre_form">Créer un compte</h1>
           <form @submit.prevent="registerMedecin()" id="form_ordo">
           <div class="ligne_container">
@@ -13,27 +12,21 @@
             <label><b>Nom</b></label>
             <input type="text" v-model="nom" placeholder="Nom" name="nom" required>
           </div>
-
           <div class="ligne">
             <label><b>Prénom</b></label>
             <input type="text" v-model="prenom" placeholder="Prénom" name="prenom" required>
           </div>
           </div>
-
           <div class="ligne_container">
-
           <div class="ligne">
             <label><b>E-mail</b></label>
             <input type="email" v-model="mail" placeholder="E-mail" name="mail" required>
           </div>
-
           <div class="ligne">
             <label><b>Numéro de téléphone</b></label>
             <input type="number" v-model="num" placeholder="Numéro" name="numero" required>
           </div>
-
           </div>
-
           <div class="ligne_container">
             <div class="ligne">
               <label><b>N°</b></label>
@@ -44,27 +37,20 @@
               <input type="text" v-model="rue" placeholder="Rue" name="rue" required>
             </div>
           </div>
-
           <div class="ligne_container">
             <div class="ligne">
               <label><b>Code Postal</b></label>
               <input type="number" v-model="code_postal" placeholder="Code Postal" name="code_postal" required>
             </div>
-
-
             <div class="ligne">
               <label><b>Ville</b></label>
               <input type="text" v-model="ville" placeholder="Ville" name="ville" required>
             </div>
           </div>
-
-
-
           <div class="ligne">
             <label><b>Mot de Passe</b></label>
             <input type="password" v-model="mdp" placeholder="Mot de Passe" name="mdp" required>
-          </div>
-
+          </div>x
           <button class="signupButton" type="submit">M'inscrire !</button>
           </form>
         </div>

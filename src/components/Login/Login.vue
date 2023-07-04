@@ -1,15 +1,11 @@
 <template>
-
   <div class="container_page gradient-background"></div>
   <img class="logo_ordotech" src="../../assets/logo/OrdoTech_logo.png">
   <div class="form-container">
-
     <div class="flex">
       <div class="register">
         <router-link to="/chooseRole"><p class="info_form">Vous n'avez pas encore de compte ? Cliquez ici !</p></router-link>
-
         <div class="signup_form login">
-
           <h1 class="titre_form">Se connecter</h1>
           <form @submit.prevent="login()" id="form_ordo">
           <div class="ligne">
@@ -20,13 +16,8 @@
             <label><b>Mot de Passe</b></label>
             <input type="password" v-model="mdp" placeholder="Mot de Passe" name="mdp" required>
           </div>
-
           <button class="signupButton" type="submit" >Se connecter !</button>
           </form>
-
-          <!-- Bouton pour naviguer vers le formulaire de prescription à supprimer -->
-
-
         </div>
       </div>
     </div>
@@ -60,9 +51,9 @@ export default {
         if (response.data.message ==="login_medecin"){
           console.log(response.data.results[0])
 
+          //Ajout des variables utilisateurs eu store Pinia
           this.store.setId(response.data.results[0].id_medecin)
           this.store.setNom(response.data.results[0].last_name)
-
           this.store.setPrenom(response.data.results[0].first_name)
           this.store.setMail(response.data.results[0].email)
           this.store.setNumero(response.data.results[0].num_phone)
@@ -74,28 +65,31 @@ export default {
         }
         else if(response.data.message === 'login_user'){
           console.log(response.data.result)
+
+          //Ajout des variables utilisateurs eu store Pinia
           this.store.setId(response.data.result[0].id_patient)
           this.store.setNom(response.data.result[0].last_name)
           this.store.setPrenom(response.data.result[0].first_name)
           this.store.setMail(response.data.result[0].email)
           this.store.setNumero(response.data.result[0].num_phone)
           if(response.data.result[0].id_medecin_treat!==null){
+
+            //Ajout des variables utilisateurs eu store Pinia
             this.store.setIdMedecinT(response.data.result[0].id_medecin_treat)
             this.store.setPrenomMedecinT(response.data.result[0].first_name_medecin)
             this.store.setNomMedecinT(response.data.result[0].last_name_medecin)
             this.store.setNumeroMedecinT(response.data.result[0].num_phone_medecin)
             this.store.setMailMedecinT(response.data.result[0].email_medecin)
           }
-
           this.$router.push("/homeUser")
         }
         else{
           console.log(response.data.results)
+          //Ajout des variables utilisateurs eu store Pinia
           this.store.setNomPharma(response.data.results[0].name_pharma)
           this.store.setIdPharma(response.data.results[0].id_pharma)
           this.store.setMailPharma(response.data.results[0].email)
           this.store.setNumPharma(response.data.results[0].num_phone)
-
           this.$router.push("/homePharmacie")
         }
 

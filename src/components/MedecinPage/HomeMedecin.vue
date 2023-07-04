@@ -10,7 +10,6 @@
 
             <h3><i class='bx bxs-plus-circle'></i> Créer une ordonnance</h3>
             <img src="../../assets/icones/ordonnance.png" alt="icone_ordonnance">
-
           </div>
           </router-link>
         </div>
@@ -23,9 +22,6 @@
               <h4>Aucune consultation de prévu</h4>
             </div>
           </div>
-
-
-
         </div>
         <div class="child-grid box3">
           <h3> Ordonnances récentes <i class='bx bxs-hourglass-top'></i></h3>
@@ -39,14 +35,11 @@
               </div>
             </div>
             <p class="historique"><router-link to="/historiqueMedecin">Voir l'historique des ordonnances &#8594;</router-link></p>
-
           </div>
           <div v-else class="aucune-ordo">
             <img src="../../assets/icones/aucun-resultat.png" alt="icone_aucun_res">
             <h4>Aucune ordonnance pour le moment</h4>
-
           </div>
-
         </div>
         <div class="child-grid box4">
           <h3> Etudiants en suivi </h3>
@@ -56,28 +49,18 @@
               <img src="../../assets/icones/avatar.png" alt="icone_pdf">
               <div class="infos_etudiant">
                 <p><i class='bx bxs-user'></i>  {{etudiant.first_name}} {{etudiant.last_name}}<br><i class='bx bxs-envelope'></i> {{etudiant.email}}<br><i class='bx bx-health'></i> Nº sécu :  {{etudiant.id_patient}}</p>
-
               </div>
               <i title="Créer une ordonnance" id="add_ordo" @click="ouvrirPrescription(etudiant.id_patient)" class='bx bxs-file-plus'></i>
-
-
-
             </div>
-
           </div>
           <div v-else class="aucun-etudiant">
             <img src="../../assets/icones/aucun_etudiant.png" alt="icone_aucun_res">
-
             <h4>Aucun étudiant en suivi <br> pour le moment</h4>
           </div>
-
         </div>
       </div>
     </div>
-
-
   </div>
-
 </template>
 
 <script>
@@ -98,7 +81,6 @@ export default {
   },
   data(){
     return{
-
       etudiants : [],
       ordos : [],
       searchQuery : '',
@@ -171,13 +153,11 @@ export default {
       })
     },
 
-
     formatDate(dateString) {
       const date = new Date(dateString);
       const day = date.getDate();
       const month = date.getMonth() + 1;
       const year = date.getFullYear();
-
       return `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
     },
 
@@ -194,56 +174,34 @@ export default {
 
     generatePDF(ordo) {
       const doc = new jsPDF();
-
-      doc.setFont("Helvetica, Arial, sans-serif"); // Choisissez une police agréable.
-
-      doc.setFontSize(12); // Réduisez la taille de la police pour le contenu.
-
-
-
-
       const imgData = logo;
+      const filteredOrdo = this.ordos.filter((ordonnance) => ordonnance.id_ordo === ordo.id_ordo);
 
+      var y_medoc = 120
+
+      doc.setFont("Helvetica, Arial, sans-serif");
+      doc.setFontSize(12);
       doc.addImage(imgData, 'PNG', 85, 10, 48, 12);
 
       // Informations médecin
       doc.text(`${this.store.getPrenom()} ${this.store.getNom()}\nMédecin généraliste`, 20, 50);
       doc.text(`Adresse : ${this.store.getNumRue()} rue ${this.store.getRue()}, ${this.store.getVille()} ${this.store.getCodePostal()}  \nTel cabinet : ${this.store.getNumero()}`, 110, 50);
 
-
-
       //Informations étudiant(e)
       doc.text(`${ordo.first_name} ${ordo.last_name}\nNuméro de sécurité social de l'étudiant(e) : ${ordo.id_patient}`, 20, 70);
       doc.text(`Tel étudiant(e) : ${ordo.num_phone}`, 110, 70);
 
-
-      //Informations ordonnance médicaments
-      var y_medoc = 120
+      //Informations ordonnance médicamentsx
       doc.text(`Prescription : `, 20, 110);
 
-      const filteredOrdo = this.ordos.filter((ordonnance) => ordonnance.id_ordo === ordo.id_ordo);
-
-
       for (let i = 0; i < filteredOrdo.length; i++) {
-
-
-
-
-
         const medicament = filteredOrdo[i].name_drug
         const nbFoisParJour = filteredOrdo[i].nb_fois_par_jour
         const nbJour = filteredOrdo[i].nb_jour
-
-
         doc.text(`Médicament prescrit : ${medicament}\nA prendre ${nbFoisParJour} fois par jour pendant pendant ${nbJour} jours`, 20, y_medoc);
         y_medoc += 20;
-
       }
-
-
-
       doc.text(`Fait le ${this.formatDate(ordo.date)}\n\nSignature :`, 140, 220);
-
 
       doc.save(`Ordonnance-${ordo.first_name}-${ordo.last_name}-${this.formatDate(ordo.date)}`);
     },
@@ -279,7 +237,6 @@ export default {
 </script>
 
 <style scoped>
-
 
 .page{
   height : 100vh;

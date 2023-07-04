@@ -9,8 +9,6 @@
       </div>
       <i class="bx bx-menu" id="btn" @click="moveSidebar"/>
       <ul class="nav_list">
-
-
         <li>
           <a href="/" @click="logout">
             <i class="bx bx-log-out" id="log_out"></i>
@@ -31,7 +29,6 @@
             </div>
           </div>
           <i class="bx bxs-user-account bx-sm icon_user"></i>
-
         </div>
       </div>
     </div>
@@ -268,18 +265,12 @@ body {
   pointer-events: auto;
 }
 
-.sidebar .profile_details .name_job{
-  margin-left: 10px;
-}
 .sidebar .profile_details .name_type{
   margin-left: 24px;
 }
 .sidebar .profile_details .name{
   font-size: 15px;
   font-weight: 400;
-}
-.sidebar .profile_details .job{
-  font-size: 12px;
 }
 .sidebar .icon_user{
   position: absolute;
@@ -301,14 +292,6 @@ body {
 }
 
 
-.home_content{
-  position: absolute;
-  height: 100%;
-  width: calc(100% - 78px);
-  left: 78px;
-  transition: all 0.5s ease;
-  margin: 20px;
-}
 
 .sidebar.active ~ .home_content{
   width: calc(100% - 240px);
